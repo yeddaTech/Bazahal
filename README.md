@@ -11,7 +11,7 @@ git pull
 
 QUANDO FINISCI DI MODIFICARE:
 
-```bash
+
 git add .
 git commit -m "descrizione delle modifiche cosi capisco che hai fatto"
 git push -u origin main
