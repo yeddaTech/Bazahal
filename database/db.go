@@ -3,16 +3,23 @@ package database
 import (
 	"database/sql"
 	"log"
+	"os" // Aggiunto per leggere le variabili d'ambiente
 
 	_ "github.com/lib/pq" // Driver per PostgreSQL
 )
 
-// DB è una variabile globale esportata che gli altri pacchetti userentanno
+// DB è una variabile globale esportata che gli altri pacchetti useranno
 var DB *sql.DB
 
 // Connect inizializza la connessione al database
 func Connect() {
-	connStr := "user=postgres password=aicha dbname=halalshop sslmode=disable"
+	// 1. Prova a leggere l'URL del cloud (Neon) dalle variabili di sistema
+	connStr := os.Getenv("DATABASE_URL")
+
+	// 2. Se è vuoto (ovvero sei sul tuo PC in locale), usa il tuo database locale
+	if connStr == "" {
+		connStr = "user=postgres password=aicha dbname=halalshop sslmode=disable"
+	}
 
 	var err error
 	DB, err = sql.Open("postgres", connStr)
