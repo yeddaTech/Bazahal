@@ -2,7 +2,9 @@
 ciao sono morgan
 ciao sono younesse,
 MORGAN QUANDI CERCHI DI MODIFICARE FAI SEMPRE GIT PULL non in maiuscolo
-fai: 
+fai:
+```bash
+ 
 git pull
 
 
