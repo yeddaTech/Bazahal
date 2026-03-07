@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Halal Shop</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+    <h1>Halal Shop</h1>
+    <p>100% Halal Certified Products</p>
+</header>
+
+<div class="container">
+    {{range .}}
+    <div class="card">
+        <img src="{{if .ImageURL}}{{.ImageURL}}{{else}}https://images.unsplash.com/photo-1603048297172-c92544798d5a{{end}}" alt="{{.Name}}">
+        
+        <h3>{{.Name}}</h3>
+        <p>{{.Description}}</p>
+        <a href="#" class="buy-btn">Acquista</a>
+    </div>
+    {{else}}
+        <h3 style="color: white; text-align: center; width: 100%;">Nessun prodotto trovato.</h3>
+    {{end}}
+</div>
+<div class="upload-container">
+    <a href="/upload" class="upload-btn">Carica Prodotto</a>
+</div>
+
+
+</body>
+</html>

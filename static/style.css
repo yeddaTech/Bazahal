@@ -1,0 +1,151 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #045d07;
+    margin: 0;
+}
+
+/* HEADER */
+
+header {
+    text-align: center;
+    color: white;
+    padding: 30px 20px;
+    position: relative; /* AGGIUNGI QUESTA RIGA */
+}
+
+header p{
+    color: #e2e2e2;
+}
+
+/* GRID */
+
+.container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+    gap: 25px;
+    padding: 30px;
+}
+
+/* CARD */
+
+.card{
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
+
+.card:hover{
+    transform: scale(1.05);
+}
+
+/* IMAGE */
+
+.card img{
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+/* TEXT */
+
+.card h3{
+    margin: 15px;
+}
+
+.card p{
+    margin: 0 15px 15px 15px;
+    color: #555;
+}
+
+/* BUTTON */
+
+.buy-btn{
+    display: block;
+    margin: 0 15px 15px 15px;
+    padding: 10px;
+    text-align: center;
+    background-color: #0a8f2e;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.buy-btn:hover{
+    background-color: #086f23;
+}
+.upload-container {
+    position: absolute;
+    text-align: center;
+    margin: 40px 0; 
+    top: 0.1%; /* Posiziona il container subito sotto l'header */
+    left: 90%;
+
+}
+
+.upload-btn {
+    display: block;
+    margin: 0 auto; /* Lo centra perfettamente */
+    padding: 12px 24px;
+    background-color: #0a8f2e;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 6px;
+
+    /* LE 3 REGOLE MAGICHE PER I BUTTON */
+    border: none; /* Rimuove il bordino grigio di default */
+    cursor: pointer; /* Fa comparire la manina quando ci passi sopra! */
+    transition: transform 0.2s, background-color 0.2s; /* Rende il movimento fluido */
+}
+
+.upload-btn:hover {
+    background-color: #086f23;
+    transform: scale(1.05); /* Fa "muovere" (ingrandire) il tasto come le tue card! */
+}
+/* --- STILI PER IL MODULO DI UPLOAD --- */
+
+.form-container {
+    max-width: 500px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+input[type="text"], textarea, input[type="file"] {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+}
+
+.submit-btn {
+    padding: 12px;
+    background-color: #0a8f2e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #086f23;
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Carica Prodotto - Halal Shop</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+    <h1>Halal Shop</h1>
+    <p>Aggiungi un nuovo prodotto al catalogo</p>
+    <div class="upload-container">
+        <a href="/" class="upload-btn">Torna alla Home</a>
+    </div>
+</header>
+
+<div class="form-container">
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        
+        <label for="name">Nome Prodotto:</label>
+        <input type="text" id="name" name="name" placeholder="Es. Carne Halal" required>
+
+        <label for="description">Descrizione:</label>
+        <textarea id="description" name="description" rows="4" placeholder="Descrivi il prodotto..." required></textarea>
+
+        <label for="image">Immagine del prodotto:</label>
+        <input type="file" id="image" name="image" accept="image/*">
+
+        <button type="submit" class="submit-btn">Salva Prodotto</button>
+        
+    </form>
+</div>
+
+</body>
+</html>
