@@ -4,18 +4,48 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os/exec"
+	"runtime"
+	"time"
 
-	"halalshop/api" // Importiamo la cartella api dove c'è la nostra logica
+	"halalshop/api"
+
+	"github.com/joho/godotenv"
 )
 
+func openBrowser(url string) {
+	var err error
+	switch runtime.GOOS {
+	case "linux":
+		err = exec.Command("xdg-open", url).Start()
+	case "windows":
+		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+	case "darwin":
+		err = exec.Command("open", url).Start()
+	}
+	if err != nil {
+		fmt.Println("⚠️ Non sono riuscito ad aprire il browser. Vai manualmente su:", url)
+	}
+}
+
 func main() {
-	// Diciamo a Go: "Qualsiasi cosa l'utente cerchi, passala al nostro Handler di Vercel"
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("ℹ️ Nessun file .env trovato (normale se sei su Vercel)")
+	}
+
 	http.HandleFunc("/", api.Handler)
 
-	fmt.Println("🚀 Server locale avviato! Apri il browser e vai su: http://localhost:8080")
+	fmt.Println("🚀 Accendo il motore e apro il sito in automatico...")
 
-	// Accendiamo il server sulla porta 8080
-	err := http.ListenAndServe(":8080", nil)
+	// 1. ORA APRIAMO IL BROWSER SULLA PORTA 3000
+	go func() {
+		time.Sleep(1 * time.Second)
+		openBrowser("http://localhost:3000")
+	}()
+
+	// 2. ACCENDIAMO IL SERVER SULLA PORTA 3000
+	err = http.ListenAndServe(":3000", nil)
 	if err != nil {
 		log.Fatal("Errore del server:", err)
 	}
