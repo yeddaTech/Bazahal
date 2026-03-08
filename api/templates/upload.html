@@ -1,37 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carica Prodotto - Halal Shop</title>
+    <title>Aggiungi Prodotto | Bazahal</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+    <nav class="navbar">
+        <a href="/" class="logo">Bazahal.</a>
+        <a href="/" class="nav-link">Torna alla Home</a>
+    </nav>
 
-<header>
-    <div class="header-titles">
-        <h1>Halal Shop</h1>
-        <p>Aggiungi un nuovo prodotto al catalogo</p>
+    <div class="form-container">
+        <h2 style="margin-top:0; margin-bottom:30px; font-size: 2rem;">Nuovo Prodotto</h2>
+        <form action="/upload" method="POST">
+            <div class="form-group">
+                <label>Nome Prodotto</label>
+                <input type="text" name="name" required placeholder="Es. Datteri Ajwa">
+            </div>
+            <div class="form-group">
+                <label>Descrizione</label>
+                <textarea name="description" rows="3" required placeholder="Perché le persone dovrebbero comprarlo?"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Link Immagine (URL)</label>
+                <input type="url" name="image_url" required placeholder="Es. https://sito.com/immagine.jpg">
+            </div>
+            <div class="form-group">
+                <label>Il Tuo Link Affiliato (Per fare soldi!)</label>
+                <input type="url" name="affiliate_link" required placeholder="Es. https://amazon.it/tuo-link">
+            </div>
+            <button type="submit" class="submit-btn">Pubblica Prodotto</button>
+        </form>
     </div>
-    <div class="header-actions">
-        <a href="/" class="upload-btn">Torna alla Home</a>
-    </div>
-</header>
-
-<div class="form-container">
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-        <label for="name">Nome Prodotto:</label>
-        <input type="text" id="name" name="name" placeholder="Es. Carne Halal" required>
-
-        <label for="description">Descrizione:</label>
-        <textarea id="description" name="description" rows="4" placeholder="Descrivi il prodotto..." required></textarea>
-
-        <label for="image">Immagine del prodotto:</label>
-        <input type="file" id="image" name="image" accept="image/*" class="file-input">
-
-        <button type="submit" class="submit-btn">Salva Prodotto</button>
-    </form>
-</div>
-
 </body>
 </html>

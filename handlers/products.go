@@ -1,49 +1,46 @@
 package handlers
 
 import (
-	"log"
-
 	"halalshop/database"
 	"halalshop/models"
+	"log"
 )
 
-// GetAllProducts legge tutti i prodotti dal database
-func GetAllProducts() []models.Product {
-	// Usiamo COALESCE per dire a Postgres: "se image_url è vuoto (NULL), passami una stringa vuota"
-	// Aggiungiamo anche "ORDER BY id ASC" per avere i prodotti in ordine!
-	rows, err := database.DB.Query("SELECT id, name, description, COALESCE(image_url, '') FROM products ORDER BY id ASC")
+// Ora accetta 4 parametri!
+func AddProduct(name, description, imageURL, affiliateLink string) error {
+	// Aggiunto affiliate_link alla query SQL
+	query := `INSERT INTO products (name, description, image_url, affiliate_link) VALUES ($1, $2, $3, $4)`
+
+	_, err := database.DB.Exec(query, name, description, imageURL, affiliateLink)
 	if err != nil {
-		log.Println("Errore durante la query:", err)
-		return nil
+		log.Println("Errore durante l'inserimento del prodotto:", err)
+		return err
+	}
+	return nil
+}
+
+func GetAllProducts() []models.Product {
+	var products []models.Product
+
+	// Usiamo COALESCE per evitare crash se nel database l'immagine o il link sono vuoti (NULL)
+	query := `SELECT id, name, description, COALESCE(image_url, ''), COALESCE(affiliate_link, '') FROM products ORDER BY id DESC`
+
+	rows, err := database.DB.Query(query)
+	if err != nil {
+		log.Println("Errore durante la lettura dei prodotti:", err)
+		return products
 	}
 	defer rows.Close()
 
-	var products []models.Product
-
 	for rows.Next() {
 		var p models.Product
-		// Aggiungiamo &p.ImageURL alla fine dello Scan
-		err := rows.Scan(&p.ID, &p.Name, &p.Description, &p.ImageURL)
+		// Leggiamo 5 campi, incluso l'AffiliateLink
+		err := rows.Scan(&p.ID, &p.Name, &p.Description, &p.ImageURL, &p.AffiliateLink)
 		if err != nil {
-			log.Println("Errore nello scan:", err)
+			log.Println("Errore nello scan della riga:", err)
 			continue
 		}
 		products = append(products, p)
 	}
-
 	return products
-}
-
-// AddProduct ora accetta anche l'URL dell'immagine!
-func AddProduct(name string, description string, imageURL string) error {
-	query := "INSERT INTO products (name, description, image_url) VALUES ($1, $2, $3)"
-
-	_, err := database.DB.Exec(query, name, description, imageURL)
-	if err != nil {
-		log.Println("Errore durante l'inserimento:", err)
-		return err
-	}
-
-	log.Println("Nuovo prodotto aggiunto:", name)
-	return nil
 }

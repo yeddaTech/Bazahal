@@ -10,8 +10,6 @@ import (
 	"halalshop/handlers"
 )
 
-// Magia: Inglobiamo SIA i templates HTML che la cartella static (CSS)!
-//
 //go:embed templates/* static/*
 var embeddedFiles embed.FS
 
@@ -27,30 +25,30 @@ func init() {
 func Handler(w http.ResponseWriter, r *http.Request) {
 	percorso := r.URL.Path
 
-	// 1. ROTTA: File Statici (Il nostro amato CSS!)
+	// File Statici (CSS)
 	if strings.HasPrefix(percorso, "/static/") {
 		http.FileServer(http.FS(embeddedFiles)).ServeHTTP(w, r)
 		return
 	}
 
-	// 2. ROTTA: Home Page
+	// Home Page
 	if percorso == "/" {
 		prodotti := handlers.GetAllProducts()
 		tmpl, err := template.ParseFS(embeddedFiles, "templates/index.html")
 		if err != nil {
-			http.Error(w, "Errore caricamento: "+err.Error(), http.StatusInternalServerError)
+			http.Error(w, "Errore: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
 		tmpl.Execute(w, prodotti)
 		return
 	}
 
-	// 3. ROTTA: Pagina di Upload
+	// Pagina Aggiungi Prodotto
 	if percorso == "/upload" {
 		if r.Method == http.MethodGet {
 			tmpl, err := template.ParseFS(embeddedFiles, "templates/upload.html")
 			if err != nil {
-				http.Error(w, "Errore caricamento: "+err.Error(), http.StatusInternalServerError)
+				http.Error(w, "Errore: "+err.Error(), http.StatusInternalServerError)
 				return
 			}
 			tmpl.Execute(w, nil)
@@ -58,7 +56,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if r.Method == http.MethodPost {
-			err := r.ParseMultipartForm(10 << 20)
+			// Non usiamo più ParseMultipartForm per i file fisici, solo form testuali
+			err := r.ParseForm()
 			if err != nil {
 				http.Error(w, "Errore modulo", http.StatusBadRequest)
 				return
@@ -66,11 +65,13 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 			nome := r.FormValue("name")
 			descrizione := r.FormValue("description")
-			imageURL := "" // Ricorda: Niente upload fisico di immagini su Vercel
+			imageURL := r.FormValue("image_url")           // Ora è un link!
+			affiliateLink := r.FormValue("affiliate_link") // Il link per guadagnare!
 
-			err = handlers.AddProduct(nome, descrizione, imageURL)
+			// Passiamo tutto al database
+			err = handlers.AddProduct(nome, descrizione, imageURL, affiliateLink)
 			if err != nil {
-				http.Error(w, "Errore database", http.StatusInternalServerError)
+				http.Error(w, "Errore salvataggio", http.StatusInternalServerError)
 				return
 			}
 
