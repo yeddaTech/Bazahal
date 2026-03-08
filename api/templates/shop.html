@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bazahal | L'eccellenza Halal</title>
+    <title>Shop | Bazahal</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <nav class="navbar">
         <a href="/" class="logo">Bazahal<span>.</span></a>
-        <a href="/upload" class="nav-link">+ Aggiungi Prodotto</a>
-        <a href="/login" class="nav-link">Login</a>
+        <div>
+            <a href="/" class="nav-link" style="margin-right: 15px;">Home</a>
+            <a href="/upload" class="nav-link">+ Aggiungi Prodotto</a>
+        </div>
     </nav> 
+
+    <div style="text-align: center; padding: 60px 20px 20px;">
+        <h2 style="font-size: 2.5rem; color: var(--emerald-green); margin: 0;">Il Nostro Catalogo</h2>
+        <p style="color: var(--text-muted);">Tutti i prodotti rigorosamente selezionati</p>
+    </div>
 
     <main class="product-grid">
         {{range .}}
@@ -28,4 +34,5 @@
         </div>
         {{end}}
     </main>
+</body>
 </html>

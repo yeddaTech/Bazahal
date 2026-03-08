@@ -25,96 +25,91 @@ func init() {
 func Handler(w http.ResponseWriter, r *http.Request) {
 	percorso := r.URL.Path
 
-	// File Statici (CSS)
+	// 1. File Statici (CSS)
 	if strings.HasPrefix(percorso, "/static/") {
 		http.FileServer(http.FS(embeddedFiles)).ServeHTTP(w, r)
 		return
 	}
 
-	// Home Page
-	if percorso == "/shop" || percorso == "/" {
+	// 2. HOME PAGE
+	if percorso == "/" {
+		tmpl, _ := template.ParseFS(embeddedFiles, "templates/index.html")
+		tmpl.Execute(w, nil)
+		return
+	}
+
+	// 3. SHOP PAGE
+	if percorso == "/shop" {
 		prodotti := handlers.GetAllProducts()
-		tmpl, err := template.ParseFS(embeddedFiles, "templates/index.html")
-		if err != nil {
-			http.Error(w, "Errore: "+err.Error(), http.StatusInternalServerError)
-			return
-		}
+		tmpl, _ := template.ParseFS(embeddedFiles, "templates/shop.html")
 		tmpl.Execute(w, prodotti)
 		return
 	}
 
-	// Pagina Aggiungi Prodotto
+	// 4. UPLOAD PAGE
 	if percorso == "/upload" {
 		if r.Method == http.MethodGet {
-			tmpl, err := template.ParseFS(embeddedFiles, "templates/upload.html")
-			if err != nil {
-				http.Error(w, "Errore: "+err.Error(), http.StatusInternalServerError)
-				return
-			}
+			tmpl, _ := template.ParseFS(embeddedFiles, "templates/upload.html")
 			tmpl.Execute(w, nil)
 			return
 		}
 
 		if r.Method == http.MethodPost {
-			// Non usiamo più ParseMultipartForm per i file fisici, solo form testuali
-			err := r.ParseForm()
-			if err != nil {
-				http.Error(w, "Errore modulo", http.StatusBadRequest)
-				return
-			}
-
-			nome := r.FormValue("name")
-			descrizione := r.FormValue("description")
-			imageURL := r.FormValue("image_url")           // Ora è un link!
-			affiliateLink := r.FormValue("affiliate_link") // Il link per guadagnare!
-
-			// Passiamo tutto al database
-			err = handlers.AddProduct(nome, descrizione, imageURL, affiliateLink)
-			if err != nil {
-				http.Error(w, "Errore salvataggio", http.StatusInternalServerError)
-				return
-			}
-
-			http.Redirect(w, r, "/", http.StatusSeeOther)
+			r.ParseForm()
+			handlers.AddProduct(r.FormValue("name"), r.FormValue("description"), r.FormValue("image_url"), r.FormValue("affiliate_link"))
+			http.Redirect(w, r, "/shop", http.StatusSeeOther)
 			return
 		}
 	}
-	// ROTTA: Pagina di Login
-    if percorso == "/login" {
-        // Se l'utente vuole VEDERE la pagina di login (GET)
-        if r.Method == http.MethodGet {
-            tmpl, err := template.ParseFS(embeddedFiles, "templates/login.html")
-            if err != nil {
-                http.Error(w, "Errore caricamento: "+err.Error(), http.StatusInternalServerError)
-                return
-            }
-            tmpl.Execute(w, nil)
-            return
-        }
 
-        // Se l'utente ha premuto "Accedi al Pannello" (POST)
-        if r.Method == http.MethodPost {
-            err := r.ParseForm()
-            if err != nil {
-                http.Error(w, "Errore modulo", http.StatusBadRequest)
-                return
-            }
+	// 5. REGISTRAZIONE
+	if percorso == "/register" {
+		if r.Method == http.MethodGet {
+			tmpl, _ := template.ParseFS(embeddedFiles, "templates/register.html")
+			tmpl.Execute(w, nil)
+			return
+		}
 
-            email := r.FormValue("email")
-            password := r.FormValue("password")
+		if r.Method == http.MethodPost {
+			r.ParseForm()
+			username := r.FormValue("username")
+			password := r.FormValue("password")
 
-            // --- QUI IL TUO AMICO DOVRA' METTERE LA LOGICA VERA ---
-            // Questo è solo un esempio finto per fargli vedere come funziona:
-            if email == "admin@bazahal.com" && password == "segreto" {
-                // Se è giusto, lo mandiamo alla pagina per caricare i prodotti
-                http.Redirect(w, r, "/upload", http.StatusSeeOther)
-                return
-            } else {
-                // Se sbaglia, diamo errore
-                http.Error(w, "Credenziali errate. Riprova.", http.StatusUnauthorized)
-                return
-            }
-        }
-    }
+			err := handlers.RegisterUser(username, password)
+			if err != nil {
+				// Se lo username esiste già, diamo errore
+				http.Error(w, "Errore nella registrazione. Forse lo username esiste già?", http.StatusBadRequest)
+				return
+			}
+			// Se va tutto bene, lo mandiamo al login
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
+			return
+		}
+	}
+
+	// 6. LOGIN (ORA È VERO!)
+	if percorso == "/login" {
+		if r.Method == http.MethodGet {
+			tmpl, _ := template.ParseFS(embeddedFiles, "templates/login.html")
+			tmpl.Execute(w, nil)
+			return
+		}
+
+		if r.Method == http.MethodPost {
+			r.ParseForm()
+			username := r.FormValue("username")
+			password := r.FormValue("password")
+
+			// Usiamo il database per controllare!
+			if handlers.LoginUser(username, password) {
+				http.Redirect(w, r, "/upload", http.StatusSeeOther)
+				return
+			} else {
+				http.Error(w, "Credenziali errate. Riprova.", http.StatusUnauthorized)
+				return
+			}
+		}
+	}
+
 	http.NotFound(w, r)
 }
