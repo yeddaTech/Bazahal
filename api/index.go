@@ -4,15 +4,16 @@ import (
 	"embed"
 	"html/template"
 	"net/http"
+	"strings"
 
 	"halalshop/database"
 	"halalshop/handlers"
 )
 
-// Questa è la magia: dice a Go di "inglobare" tutti i file HTML nel codice compilato!
+// Magia: Inglobiamo SIA i templates HTML che la cartella static (CSS)!
 //
-//go:embed templates/*
-var templateFiles embed.FS
+//go:embed templates/* static/*
+var embeddedFiles embed.FS
 
 var dbInitialized bool
 
@@ -26,26 +27,30 @@ func init() {
 func Handler(w http.ResponseWriter, r *http.Request) {
 	percorso := r.URL.Path
 
-	// 1. ROTTA: Home Page
+	// 1. ROTTA: File Statici (Il nostro amato CSS!)
+	if strings.HasPrefix(percorso, "/static/") {
+		http.FileServer(http.FS(embeddedFiles)).ServeHTTP(w, r)
+		return
+	}
+
+	// 2. ROTTA: Home Page
 	if percorso == "/" {
 		prodotti := handlers.GetAllProducts()
-
-		// Invece di ParseFiles (che cerca sul disco), usiamo ParseFS (che cerca nella memoria)
-		tmpl, err := template.ParseFS(templateFiles, "templates/index.html")
+		tmpl, err := template.ParseFS(embeddedFiles, "templates/index.html")
 		if err != nil {
-			http.Error(w, "Errore nel caricamento della pagina: "+err.Error(), http.StatusInternalServerError)
+			http.Error(w, "Errore caricamento: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
 		tmpl.Execute(w, prodotti)
 		return
 	}
 
-	// 2. ROTTA: Pagina di Upload
+	// 3. ROTTA: Pagina di Upload
 	if percorso == "/upload" {
 		if r.Method == http.MethodGet {
-			tmpl, err := template.ParseFS(templateFiles, "templates/upload.html")
+			tmpl, err := template.ParseFS(embeddedFiles, "templates/upload.html")
 			if err != nil {
-				http.Error(w, "Errore nel caricamento della pagina: "+err.Error(), http.StatusInternalServerError)
+				http.Error(w, "Errore caricamento: "+err.Error(), http.StatusInternalServerError)
 				return
 			}
 			tmpl.Execute(w, nil)
@@ -61,14 +66,11 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 			nome := r.FormValue("name")
 			descrizione := r.FormValue("description")
-
-			// Nota: ho rimosso il salvataggio fisico dell'immagine perché su Vercel non funziona.
-			// Per ora inseriamo un URL vuoto o un placeholder, poi lo adatteremo ai link di affiliazione!
-			imageURL := ""
+			imageURL := "" // Ricorda: Niente upload fisico di immagini su Vercel
 
 			err = handlers.AddProduct(nome, descrizione, imageURL)
 			if err != nil {
-				http.Error(w, "Errore salvataggio database", http.StatusInternalServerError)
+				http.Error(w, "Errore database", http.StatusInternalServerError)
 				return
 			}
 
