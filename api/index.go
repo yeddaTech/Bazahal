@@ -79,6 +79,42 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	// ROTTA: Pagina di Login
+    if percorso == "/login" {
+        // Se l'utente vuole VEDERE la pagina di login (GET)
+        if r.Method == http.MethodGet {
+            tmpl, err := template.ParseFS(embeddedFiles, "templates/login.html")
+            if err != nil {
+                http.Error(w, "Errore caricamento: "+err.Error(), http.StatusInternalServerError)
+                return
+            }
+            tmpl.Execute(w, nil)
+            return
+        }
 
+        // Se l'utente ha premuto "Accedi al Pannello" (POST)
+        if r.Method == http.MethodPost {
+            err := r.ParseForm()
+            if err != nil {
+                http.Error(w, "Errore modulo", http.StatusBadRequest)
+                return
+            }
+
+            email := r.FormValue("email")
+            password := r.FormValue("password")
+
+            // --- QUI IL TUO AMICO DOVRA' METTERE LA LOGICA VERA ---
+            // Questo è solo un esempio finto per fargli vedere come funziona:
+            if email == "admin@bazahal.com" && password == "segreto" {
+                // Se è giusto, lo mandiamo alla pagina per caricare i prodotti
+                http.Redirect(w, r, "/upload", http.StatusSeeOther)
+                return
+            } else {
+                // Se sbaglia, diamo errore
+                http.Error(w, "Credenziali errate. Riprova.", http.StatusUnauthorized)
+                return
+            }
+        }
+    }
 	http.NotFound(w, r)
 }
