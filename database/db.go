@@ -18,7 +18,7 @@ func Connect() {
 
 	// 2. Se è vuoto (ovvero sei sul tuo PC in locale), usa il tuo database locale
 	if connStr == "" {
-		connStr = "user=postgres password=aicha dbname=halalshop sslmode=disable"
+		connStr = "user=postgres password=shibuya109 dbname=halalshop sslmode=disable"
 	}
 
 	var err error
