@@ -32,7 +32,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Home Page
-	if percorso == "/" {
+	if percorso == "/shop" || percorso == "/" {
 		prodotti := handlers.GetAllProducts()
 		tmpl, err := template.ParseFS(embeddedFiles, "templates/index.html")
 		if err != nil {
