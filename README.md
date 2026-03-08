@@ -1,9 +1,9 @@
 # 🛒 Progetto Bazahal – Guida per il Team
-link webapp: https://bazahal.onrender.com/#
+link webapp: https://bazahal.vercel.app/
 l'app dopo 20 min di inattivita di utenza va in sleep, se accedi e non trovi il sito 
 aspetta 30 secondi e riprova e andra.
 
-render hosta il sito ed è collegato a github, ogni modificata applicata su github si applichera al sito.
+VERCEL hosta il sito ed è collegato a github, ogni modificata applicata su github si applichera al sito.
 neon hosta il database che dovrai connettere al tuo dbeaver (contatta yedda).
 
 > ⚠️ **Leggere con attenzione prima di lavorare sul progetto**
@@ -11,7 +11,7 @@ neon hosta il database che dovrai connettere al tuo dbeaver (contatta yedda).
 Ciao!  
 Se stai leggendo questo file, sei un collaboratore del progetto **Bazahal** (un aggregatore di prodotti Halal in affiliazione).
 
-Attualmente il sito è **ONLINE e PUBBLICO** su Render.
+Attualmente il sito è **ONLINE e PUBBLICO** su VERCEL.
 
 Questo significa che:
 
