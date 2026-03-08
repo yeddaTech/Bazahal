@@ -1,10 +1,11 @@
 :root {
-    --bg-color: #F4F6F5; /* Un grigio-verde chiarissimo e caldo */
-    --text-main: #142118; /* Nero con una punta di verde foresta */
+    --bg-color: #F4F6F5; /* Un grigio chiarissimo e caldo, non il bianco freddo */
+    --text-main: #142118; /* Nero con una punta profonda di verde foresta */
     --text-muted: #7A8C81;
-    --emerald-green: #0EA672; /* Il verde profondo stile Muslim Pro */
-    --gold-accent: #C5A059; /* Oro premium */
+    --emerald-green: #0EA672; /* Il verde smeraldo profondo di Muslim Pro */
+    --gold-accent: #C5A059; /* Un oro premium e non cheesy */
     --card-bg: #ffffff;
+    --hero-overlay: rgba(20, 33, 24, 0.75); /* Overlay scuro per l'immagine hero */
 }
 
 body {
@@ -27,7 +28,7 @@ body {
     justify-content: space-between;
     align-items: center;
     z-index: 100;
-    border-bottom: 1px solid rgba(14, 166, 114, 0.1); /* Riflesso verde tenue */
+    border-bottom: 1px solid rgba(14, 166, 114, 0.1);
 }
 
 .logo {
@@ -54,42 +55,68 @@ body {
     color: var(--emerald-green);
 }
 
-/* Intestazione (Hero) */
+/* Nuova Sezione Hero (Effetto Muslim Pro) */
 .hero {
-    text-align: center;
-    padding: 100px 20px 80px;
     position: relative;
+    text-align: center;
+    padding: 180px 20px 140px; /* Più spazioso */
+    background-color: var(--text-main); /* Fallback */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Effetto parallasse premium */
+    color: white; /* Testo chiaro su fondo scuro */
+    overflow: hidden;
+}
+
+/* L'overlay scuro per far risaltare il testo */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--hero-overlay);
+    z-index: 1;
+}
+
+/* Contenuto dell'hero (z-index alto) */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 /* Bismillah stilizzato in alto */
 .bismillah {
     font-family: serif;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: var(--gold-accent);
-    margin-bottom: 20px;
-    opacity: 0.8;
+    margin-bottom: 30px;
+    opacity: 0.9;
 }
 
 .hero h1 {
-    font-size: 4.5rem;
+    font-size: 4.8rem;
     font-weight: 700;
-    letter-spacing: -2px;
+    letter-spacing: -2.5px;
     line-height: 1.05;
-    margin: 0 0 20px 0;
-    color: var(--text-main);
+    margin: 0 0 25px 0;
 }
 
 .hero h1 span {
-    color: var(--emerald-green);
+    color: var(--gold-accent); /* Ora il titolo principale usa l'oro */
 }
 
 .hero p {
-    font-size: 1.3rem;
-    color: var(--text-muted);
+    font-size: 1.5rem;
+    color: rgba(255,255,255,0.8);
     font-weight: 400;
-    max-width: 600px;
+    max-width: 650px;
     margin: 0 auto;
     line-height: 1.6;
+    letter-spacing: -0.5px;
 }
 
 /* Griglia Prodotti */
@@ -110,13 +137,13 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
-    border-top: 3px solid transparent;
+    border-top: 3px solid transparent; /* Per l'effetto oro all'hover */
 }
 
 .product-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 20px 40px rgba(14, 166, 114, 0.1);
-    border-top: 3px solid var(--gold-accent); /* Tocco di classe arabo all'hover */
+    border-top: 3px solid var(--gold-accent); /* Tocco dorato all'hover */
 }
 
 .product-card img {
@@ -156,12 +183,12 @@ body {
     border-radius: 30px;
     font-weight: 600;
     text-align: center;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     border: 1px solid transparent;
 }
 
 .buy-btn:hover {
-    background-color: var(--text-main);
+    background-color: var(--text-main); /* Cambia in nero profondo */
     color: var(--gold-accent);
     transform: scale(1.02);
 }
@@ -174,7 +201,7 @@ body {
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.04);
-    border-top: 4px solid var(--emerald-green);
+    border-top: 4px solid var(--emerald-green); /* Linea verde distintiva */
 }
 
 .form-group { margin-bottom: 20px; }
