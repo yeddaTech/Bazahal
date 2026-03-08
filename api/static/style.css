@@ -221,3 +221,47 @@ body {
     border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: 0.2s;
 }
 .submit-btn:hover { background: #0b8a5d; }
+
+/* =========================================
+   📱 RESPONSIVITA' MOBILE (SMARTPHONE)
+   ========================================= */
+    @media (max-width: 768px) {
+    /* Riduciamo gli spazi giganti dell'intestazione */
+    .hero {
+        padding: 120px 20px 80px;
+    }
+    
+    /* Rimpiccioliamo il Bismillah */
+    .bismillah {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+    }
+
+    /* Il titolo principale scende da 4.8rem a una misura da telefono */
+    .hero h1 {
+        font-size: 2.8rem;
+        letter-spacing: -1px;
+    }
+
+    /* Rimpiccioliamo il sottotitolo */
+    .hero p {
+        font-size: 1.1rem;
+    }
+
+    /* Le carte dei prodotti prenderanno esattamente il 100% della larghezza */
+    .product-grid {
+        grid-template-columns: 1fr;
+        padding: 20px 15px;
+        gap: 20px;
+    }
+
+    /* Riduciamo i margini del modulo di aggiunta prodotto */
+    .form-container {
+        margin: 40px 15px;
+        padding: 25px;
+    }
+    
+    .form-container h2 {
+        font-size: 1.8rem !important;
+    }
+}
