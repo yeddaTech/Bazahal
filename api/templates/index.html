@@ -1,38 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Halal Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bazahal | L'eccellenza Halal</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+    <nav class="navbar">
+        <a href="/" class="logo">Bazahal.</a>
+        <a href="/upload" class="nav-link">+ Aggiungi Prodotto</a>
+    </nav>
 
-<header>
-    <div class="header-titles">
-        <h1>Halal Shop</h1>
-        <p>100% Halal Certified Products</p>
-    </div>
-    <div class="header-actions">
-        <a href="/upload" class="upload-btn">Carica Prodotto</a>
-    </div>
-</header>
+    <header class="hero">
+        <h1>L'eccellenza Halal.<br><span>Selezionata per te.</span></h1>
+        <p>Scopri i migliori prodotti certificati, scelti e garantiti dai nostri esperti. Il ponte diretto verso la qualità.</p>
+    </header>
 
-<div class="container">
-    {{range .}}
-    <div class="card">
-        <img src="{{if .ImageURL}}{{.ImageURL}}{{else}}https://images.unsplash.com/photo-1603048297172-c92544798d5a{{end}}" alt="{{.Name}}">
-        <div class="card-content">
-            <h3>{{.Name}}</h3>
-            <p>{{.Description}}</p>
+    <main class="product-grid">
+        {{range .}}
+        <div class="product-card">
+            <img src="{{.ImageURL}}" alt="{{.Name}}">
+            <div class="card-content">
+                <h3>{{.Name}}</h3>
+                <p>{{.Description}}</p>
+                <a href="{{.AffiliateLink}}" target="_blank" class="buy-btn">Acquista Ora</a>
+            </div>
         </div>
-        <a href="#" class="buy-btn">Acquista</a>
-    </div>
-    {{else}}
-        <div class="empty-state">
-            <h3>Nessun prodotto trovato.</h3>
-        </div>
-    {{end}}
-</div>
-
+        {{end}}
+    </main>
 </body>
 </html>
