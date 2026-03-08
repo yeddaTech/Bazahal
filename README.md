@@ -1,7 +1,6 @@
 # 🛒 Progetto Bazahal – Guida per il Team
 link webapp: https://bazahal.vercel.app/
-l'app dopo 20 min di inattivita di utenza va in sleep, se accedi e non trovi il sito 
-aspetta 30 secondi e riprova e andra.
+
 
 VERCEL hosta il sito ed è collegato a github, ogni modificata applicata su github si applichera al sito.
 neon hosta il database che dovrai connettere al tuo dbeaver (contatta yedda).

@@ -8,12 +8,12 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="/" class="logo">Bazahal.</a>
+        <a href="/" class="logo">Bazahal<span>.</span></a>
         <a href="/" class="nav-link">Torna alla Home</a>
     </nav>
 
     <div class="form-container">
-        <h2 style="margin-top:0; margin-bottom:30px; font-size: 2rem;">Nuovo Prodotto</h2>
+        <h2 style="margin-top:0; margin-bottom:30px; font-size: 2rem; color: var(--emerald-green);">Nuovo Prodotto</h2>
         <form action="/upload" method="POST">
             <div class="form-group">
                 <label>Nome Prodotto</label>
@@ -28,7 +28,7 @@
                 <input type="url" name="image_url" required placeholder="Es. https://sito.com/immagine.jpg">
             </div>
             <div class="form-group">
-                <label>Il Tuo Link Affiliato (Per fare soldi!)</label>
+                <label>Il Tuo Link Affiliato (Per guadagnare)</label>
                 <input type="url" name="affiliate_link" required placeholder="Es. https://amazon.it/tuo-link">
             </div>
             <button type="submit" class="submit-btn">Pubblica Prodotto</button>

@@ -8,13 +8,14 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="/" class="logo">Bazahal.</a>
+        <a href="/" class="logo">Bazahal<span>.</span></a>
         <a href="/upload" class="nav-link">+ Aggiungi Prodotto</a>
     </nav>
 
     <header class="hero">
+        <div class="bismillah">بسم الله الرحمن الرحيم</div>
         <h1>L'eccellenza Halal.<br><span>Selezionata per te.</span></h1>
-        <p>Scopri i migliori prodotti certificati, scelti e garantiti dai nostri esperti. Il ponte diretto verso la qualità.</p>
+        <p>Scopri i migliori prodotti certificati, scelti e garantiti dai nostri esperti. Il ponte diretto verso la purezza e la qualità.</p>
     </header>
 
     <main class="product-grid">
@@ -24,7 +25,9 @@
             <div class="card-content">
                 <h3>{{.Name}}</h3>
                 <p>{{.Description}}</p>
+                {{if .AffiliateLink}}
                 <a href="{{.AffiliateLink}}" target="_blank" class="buy-btn">Acquista Ora</a>
+                {{end}}
             </div>
         </div>
         {{end}}
