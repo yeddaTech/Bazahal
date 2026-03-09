@@ -77,17 +77,15 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 			err := handlers.RegisterUser(username, password)
 			if err != nil {
-				// Se lo username esiste già, diamo errore
 				http.Error(w, "Errore nella registrazione. Forse lo username esiste già?", http.StatusBadRequest)
 				return
 			}
-			// Se va tutto bene, lo mandiamo al login
 			http.Redirect(w, r, "/login", http.StatusSeeOther)
 			return
 		}
 	}
 
-	// 6. LOGIN (ORA È VERO!)
+	// 6. LOGIN
 	if percorso == "/login" {
 		if r.Method == http.MethodGet {
 			tmpl, _ := template.ParseFS(embeddedFiles, "templates/login.html")
@@ -100,7 +98,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 			username := r.FormValue("username")
 			password := r.FormValue("password")
 
-			// Usiamo il database per controllare!
 			if handlers.LoginUser(username, password) {
 				http.Redirect(w, r, "/upload", http.StatusSeeOther)
 				return
@@ -114,6 +111,17 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// 7. PAGINA ORARI PREGHIERA
 	if percorso == "/orari" {
 		tmpl, err := template.ParseFS(embeddedFiles, "templates/orari.html")
+		if err != nil {
+			http.Error(w, "Errore caricamento: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		tmpl.Execute(w, nil)
+		return
+	}
+
+	// 8. PAGINA MACELLERIE E RISTORANTI HALAL
+	if percorso == "/macelleriehalal" {
+		tmpl, err := template.ParseFS(embeddedFiles, "templates/macelleriehalal.html")
 		if err != nil {
 			http.Error(w, "Errore caricamento: "+err.Error(), http.StatusInternalServerError)
 			return

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trova Halal | Bazahal</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .map-section { padding: 60px 5%; text-align: center; }
+        .map-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(14, 166, 114, 0.1);
+            border: 1px solid rgba(14, 166, 114, 0.1);
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        iframe { width: 100%; height: 500px; border: none; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="logo">Bazahal<span>.</span></a>
+        <div>
+            <a href="/orari" class="nav-link" style="margin-right: 15px;">Orari</a>
+            <a href="/shop" class="nav-link" style="margin-right: 15px;">Shop</a>
+            <a href="/login" class="nav-link">Login</a>
+        </div>
+    </nav>
+
+    <header class="hero" style="background-image: url('https://images.unsplash.com/photo-1534120247760-c44c3e4a62f1?q=80&w=1470&auto=format&fit=crop'); min-height: 35vh; padding: 100px 20px 50px;">
+        <div class="hero-content">
+            <div class="bismillah">بسم الله الرحمن الرحيم</div>
+            <h1>Qualità Halal<br><span>Intorno a te.</span></h1>
+            <p>Trova macellerie e ristoranti certificati a Milano e dintorni.</p>
+        </div>
+    </header>
+
+    <section class="map-section">
+        <div class="map-wrapper" id="map-container">
+            <div id="placeholder" style="padding: 40px;">
+                <button onclick="getLocation()" class="buy-btn" style="cursor: pointer; border: none;">
+                    📍 Usa la mia posizione
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showMap, showError);
+            } else {
+                alert("La geolocalizzazione non è supportata dal tuo browser.");
+                showMap(); // Carica mappa generica
+            }
+        }
+
+        function showMap(position) {
+            let lat = 45.4642; // Default Milano
+            let lon = 9.1900;
+            
+            if(position) {
+                lat = position.coords.latitude;
+                lon = position.coords.longitude;
+            }
+
+            // URL di embed ufficiale che punta a Milano/tua posizione
+            const searchUrl = `https://www.google.com/maps/search/?api=1&query=macelleria+halal9`;
+            
+            document.getElementById('map-container').innerHTML = `
+                <iframe src="${searchUrl}" allowfullscreen="" loading="lazy"></iframe>
+            `;
+        }
+
+        function showError(error) {
+            console.warn("Errore GPS, carico mappa su Milano.");
+            showMap(); 
+        }
+    </script>
+</body>
+</html>
