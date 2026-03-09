@@ -111,5 +111,16 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	// 7. PAGINA ORARI PREGHIERA
+	if percorso == "/orari" {
+		tmpl, err := template.ParseFS(embeddedFiles, "templates/orari.html")
+		if err != nil {
+			http.Error(w, "Errore caricamento: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		tmpl.Execute(w, nil)
+		return
+	}
+
 	http.NotFound(w, r)
 }

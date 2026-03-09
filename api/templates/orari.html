@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orari Preghiera | Bazahal</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body style="background-image: url('https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?q=80&w=1470&auto=format&fit=crop'); background-size: cover; background-position: center; background-attachment: fixed; margin: 0; min-height: 100vh; display: flex; flex-direction: column;">
+    
+    <nav class="navbar">
+        <a href="/" class="logo">Bazahal<span>.</span></a>
+        <div>
+            <a href="/orari" class="nav-link" style="margin-right: 15px; color: var(--gold-accent);">Orari</a>
+            <a href="/shop" class="nav-link" style="margin-right: 15px;">Shop</a>
+            <a href="/login" class="nav-link">Login</a>
+        </div>
+    </nav>
+
+    <div style="flex-grow: 1; background: rgba(20, 33, 24, 0.85); padding: 80px 20px; display: flex; align-items: center; justify-content: center;">
+        
+        <div class="prayer-container" style="width: 100%; max-width: 800px; flex-direction: column; text-align: center; padding: 50px 40px;">
+            <div class="prayer-header" style="margin-bottom: 40px;">
+                <div class="bismillah" style="margin-bottom: 15px; font-size: 1.5rem;">بسم الله الرحمن الرحيم</div>
+                <h3 style="font-size: 2.2rem; margin-bottom: 10px;">Orari della Preghiera</h3>
+                <p id="prayer-date" style="font-size: 1.2rem; color: var(--gold-accent);">Caricamento data...</p>
+                <p style="font-size: 0.95rem; margin-top: 10px; opacity: 0.7;">📍 Milano, Italia</p>
+            </div>
+            
+            <div class="prayer-grid" id="prayer-grid" style="justify-content: center; width: 100%;">
+                <p style="color: white; opacity: 0.7;">Calcolando gli orari in tempo reale...</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('https://api.aladhan.com/v1/timingsByCity?city=Milan&country=Italy&method=3')
+                .then(response => response.json())
+                .then(data => {
+                    const timings = data.data.timings;
+                    const hijri = data.data.date.hijri;
+                    
+                    document.getElementById('prayer-date').innerText = `${hijri.day} ${hijri.month.en} ${hijri.year}`;
+
+                    const prayers = [
+                        { name: 'Fajr', time: timings.Fajr, icon: '🌅' },
+                        { name: 'Dhuhr', time: timings.Dhuhr, icon: '☀️' },
+                        { name: 'Asr', time: timings.Asr, icon: '🌤️' },
+                        { name: 'Maghrib', time: timings.Maghrib, icon: '🌇' },
+                        { name: 'Isha', time: timings.Isha, icon: '🌙' }
+                    ];
+
+                    const grid = document.getElementById('prayer-grid');
+                    grid.innerHTML = ''; 
+
+                    prayers.forEach(prayer => {
+                        grid.innerHTML += `
+                            <div class="prayer-card" style="flex: 1 1 calc(30% - 15px); min-width: 120px; padding: 25px 15px;">
+                                <span class="prayer-icon" style="font-size: 2.5rem;">${prayer.icon}</span>
+                                <span class="prayer-name" style="font-size: 0.9rem;">${prayer.name}</span>
+                                <span class="prayer-time" style="font-size: 1.6rem;">${prayer.time}</span>
+                            </div>
+                        `;
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('prayer-grid').innerHTML = '<p style="color: white;">Impossibile caricare gli orari. Controlla la connessione.</p>';
+                });
+        });
+    </script>
+</body>
+</html>
