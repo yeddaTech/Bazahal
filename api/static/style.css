@@ -17,42 +17,76 @@ body {
 }
 
 /* Barra di navigazione effetto vetro profondo coordinata */
+/* Barra di navigazione stile Apple / Glassmorphism */
+/* =========================================
+   🍏 NAVBAR STILE APPLE (SISTEMATA)
+   ========================================= */
 .navbar {
     position: sticky;
     top: 0;
-    background: rgba(20, 33, 24, 0.8); /* Verde foresta molto scuro a vetro */
-    backdrop-filter: saturate(180%) blur(25px); /* Maggiore sfocatura per un effetto più marcato */
-    -webkit-backdrop-filter: saturate(180%) blur(25px);
-    padding: 15px 5%;
+    background: rgba(20, 33, 24, 0.85); /* Verde foresta scuro trasparente */
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    padding: 0 5%;
+    height: 70px; /* Leggermente più alta per dare respiro */
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Logo a sinistra, Menu a destra */
     align-items: center;
-    z-index: 100;
-    border-bottom: 1px solid rgba(14, 166, 114, 0.1);
+    z-index: 1000;
+    border-bottom: 1px solid rgba(14, 166, 114, 0.15);
 }
 
 .logo {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.5px;
     text-decoration: none;
-    color: var(--gold-accent); /* Ora il logo è oro, percoordinarsi con il hero */
+    color: var(--gold-accent);
+    flex-shrink: 0;
 }
 
 .logo span {
-    color: var(--emerald-green); /* Puntino verde smeraldo */
+    color: var(--emerald-green);
 }
 
+/* Contenitore Menu */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Distanza tra i link */
+}
+
+/* Link normali */
 .nav-link {
-    color: white; /* Testo bianco contro il fondo scuro della navbar */
+    color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: color 0.2s;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
 }
 
 .nav-link:hover {
-    color: var(--gold-accent); /* Oro premium all'hover */
+    color: white;
+}
+
+/* 💎 TASTO LOGIN (L'unico colorato che salta all'occhio) */
+.nav-cta {
+    background-color: var(--gold-accent);
+    color: var(--text-main) !important; /* Testo scuro per contrasto con l'oro */
+    padding: 8px 22px;
+    border-radius: 50px; /* Arrotondato stile Apple Button */
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(197, 160, 89, 0.2);
+}
+
+.nav-cta:hover {
+    transform: scale(1.05) translateY(-1px);
+    background-color: #d4ae6a; /* Oro leggermente più chiaro */
+    box-shadow: 0 6px 20px rgba(197, 160, 89, 0.3);
 }
 
 /* Intestazione (Hero) atmosferica coordinata */
@@ -286,44 +320,34 @@ body {
    📱 RESPONSIVITA' MOBILE (SMARTPHONE)
    ========================================= */
     @media (max-width: 768px) {
-    /* Riduciamo gli spazi giganti dell'intestazione */
-    .hero {
-        padding: 120px 20px 80px;
-    }
-    
-    /* Rimpiccioliamo il Bismillah */
-    .bismillah {
-        font-size: 1.3rem;
-        margin-bottom: 20px;
+    /* Ridimensioniamo la navbar per dare più spazio ai contenuti */
+    .navbar {
+        height: 65px;
+        padding: 0 4%;
     }
 
-    /* Il titolo principale scende da 4.8rem a una misura da telefono */
-    .hero h1 {
-        font-size: 2.8rem;
-        letter-spacing: -1px;
+    .logo {
+        font-size: 1.2rem; /* Logo leggermente più piccolo */
     }
 
-    /* Rimpiccioliamo il sottotitolo */
-    .hero p {
-        font-size: 1.1rem;
+    /* Rendiamo il menu orizzontale e scorrevole se i link sono troppi */
+    .nav-menu {
+        gap: 12px; /* Riduciamo lo spazio tra i link */
     }
 
-    /* Le carte dei prodotti prenderanno esattamente il 100% della larghezza */
-    .product-grid {
-        grid-template-columns: 1fr;
-        padding: 20px 15px;
-        gap: 20px;
+    .nav-link {
+        font-size: 0.75rem; /* Font più piccolo per stare su una riga */
+        font-weight: 600;
+        letter-spacing: -0.2px;
     }
 
-    /* Riduciamo i margini del modulo di aggiunta prodotto */
-    .form-container {
-        margin: 40px 15px;
-        padding: 25px;
+    /* Tasto Login compatto ma sempre evidente */
+    .nav-cta {
+        padding: 6px 14px;
+        font-size: 0.75rem;
+        border-radius: 40px;
     }
-    
-    .form-container h2 {
-        font-size: 1.8rem !important;
-    }
-    .info-section { padding: 60px 20px; }
-    .info-section h2 { font-size: 2.2rem; }
+
+    /* Opzionale: se i link sono troppi, permettiamo lo scroll orizzontale solo ai link */
+    /* .nav-menu { overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; } */
 }

@@ -5,38 +5,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trova Halal | Bazahal</title>
     <link rel="stylesheet" href="/static/style.css">
+    <script defer src="/_vercel/insights/script.js"></script>
     <style>
-        .map-section { padding: 40px 5%; text-align: center; }
+        /* --- NAVBAR COORDINATA --- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(20, 33, 24, 0.9); 
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            padding: 0 5%;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(14, 166, 114, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--gold-accent);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--gold-accent);
+        }
+
+        /* Login evidenziato */
+        .nav-cta {
+            background-color: var(--gold-accent);
+            color: #142118 !important;
+            padding: 8px 22px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+        }
+
+        .nav-cta:hover {
+            transform: scale(1.05);
+            background-color: white;
+        }
+
+        /* --- STILI MAPPA --- */
+        .map-section { padding: 60px 5%; text-align: center; }
         
         .search-container {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 15px;
         }
 
         .search-input {
-            padding: 12px 20px;
+            padding: 15px 25px;
             border-radius: 30px;
-            border: 2px solid var(--emerald-green);
-            width: 300px;
+            border: 1px solid rgba(14, 166, 114, 0.3);
+            width: 350px;
             font-size: 1rem;
             outline: none;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
         .map-wrapper {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
             background: var(--card-bg);
             border-radius: 25px;
             overflow: hidden;
-            box-shadow: 0 15px 40px rgba(14, 166, 114, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(14, 166, 114, 0.1);
         }
 
         iframe { 
             width: 100%; 
-            height: 550px; 
+            height: 600px; 
             border: none;
         }
     </style>
@@ -45,35 +105,40 @@
 
     <nav class="navbar">
         <a href="/" class="logo">Bazahal<span>.</span></a>
-        <div>
-            <a href="/orari" class="nav-link" style="margin-right: 15px;">Orari</a>
-            <a href="/shop" class="nav-link" style="margin-right: 15px;">Shop</a>
-            <a href="/login" class="nav-link">Login</a>
+        
+        <div class="nav-menu">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/orari" class="nav-link">Orari</a>
+            <a href="/shop" class="nav-link">Shop</a>
+            <a href="/macelleriehalal" class="nav-link" style="color: var(--gold-accent);">Mappa</a>
+            
+            <a href="/login" class="nav-link nav-cta">Login</a>
         </div>
     </nav>
 
-    <header class="hero" style="background-image: url('https://images.unsplash.com/photo-1534120247760-c44c3e4a62f1?q=80&w=1470&auto=format&fit=crop'); min-height: 30vh; padding: 80px 20px 40px;">
+    <header class="hero" style="background-image: url('https://images.unsplash.com/photo-1534120247760-c44c3e4a62f1?q=80&w=1470&auto=format&fit=crop'); min-height: 40vh;">
         <div class="hero-content">
-            <div class="bismillah">بسم الله الرحمن الرحيم</div>
+            <div class="bismillah" style="color: var(--gold-accent);">بسم الله الرحمن الرحيم</div>
             <h1>Cerca Halal<br><span>Nella tua città.</span></h1>
-            <p>Inserisci la tua città per vedere subito le macellerie e i ristoranti più vicini.</p>
+            <p>Trova istantaneamente le migliori macellerie e i ristoranti certificati intorno a te.</p>
         </div>
     </header>
 
     <section class="map-section">
         <div class="search-container">
-            <input type="text" id="cityInput" class="search-input" placeholder="Esempio: Milano, Roma, Torino...">
-            <button onclick="cercaCitta()" class="buy-btn" style="cursor: pointer; border: none;">Cerca</button>
+            <input type="text" id="cityInput" class="search-input" placeholder="Scrivi la tua città (es: Milano)">
+            <button onclick="cercaCitta()" class="buy-btn" style="cursor: pointer; border: none; padding: 15px 35px;">Cerca Ora</button>
         </div>
 
         <div class="map-wrapper" id="map-container">
             <iframe 
                 id="mapFrame"
-                src="https://maps.google.com/maps?q=macelleria+halal+italia&t=&z=6&ie=UTF8&iwloc=&output=embed" 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2798.123!2d9.1900!3d45.4642!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4786c1493a1275e7%3A0xbb9364969f620f4!2sMilano%20MI!5e0!3m2!1sit!2sit!4v1710000000000!5m2!1sit!2sit" 
                 allowfullscreen>
             </iframe>
         </div>
     </section>
+
 <script>
     function cercaCitta() {
         const citta = document.getElementById('cityInput').value;
@@ -85,23 +150,22 @@
         // Creiamo la ricerca specifica
         const termineRicerca = "macelleria+ristorante+halal+" + citta.replace(/\s+/g, '+');
         
-        // Questo URL è più potente e forza Google a mostrare i risultati locali
+        // URL corretto con template literal fixed
         const embedUrl = `https://maps.google.com/maps?q=${termineRicerca}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
         
         const container = document.getElementById('map-container');
         
-        // Aggiorniamo l'iframe con un piccolo trucco per "forzare" il ricaricamento
+        // Aggiorniamo l'iframe
         container.innerHTML = `
             <iframe 
                 id="mapFrame"
                 src="${embedUrl}" 
                 allowfullscreen
-                style="width:100%; height:550px; border:none;">
+                style="width:100%; height:600px; border:none;">
             </iframe>
         `;
     }
 
-    // Permetti di premere "Invio"
     document.getElementById("cityInput").addEventListener("keyup", function(event) {
         if (event.key === "Enter") {
             cercaCitta();

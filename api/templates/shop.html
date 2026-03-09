@@ -6,20 +6,90 @@
     <title>Shop | Bazahal</title>
     <link rel="stylesheet" href="/static/style.css">
     <script defer src="/_vercel/insights/script.js"></script>
+    <style>
+        /* Navbar coordinata stile Apple */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(20, 33, 24, 0.9); 
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            padding: 0 5%;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(14, 166, 114, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--gold-accent);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--gold-accent);
+        }
+
+        /* Il tasto Login è l'unico con la cornice colorata */
+        .nav-cta {
+            background-color: var(--gold-accent);
+            color: #142118 !important;
+            padding: 8px 22px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+        }
+
+        .nav-cta:hover {
+            transform: scale(1.05);
+            background-color: white;
+        }
+        
+        /* Titolo Shop coordinato */
+        .shop-header {
+            text-align: center;
+            padding: 80px 20px 40px;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
         <a href="/" class="logo">Bazahal<span>.</span></a>
-        <div>
-            <a href="/" class="nav-link" style="margin-right: 15px;">Home</a>
-            <a href="/upload" class="nav-link">+ Aggiungi Prodotto</a>
+        
+        <div class="nav-menu">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/orari" class="nav-link">Orari</a>
+            <a href="/shop" class="nav-link" style="color: var(--gold-accent);">Shop</a>
+            <a href="/macelleriehalal" class="nav-link">Mappa</a>
+            <a href="/upload" class="nav-link" style="font-weight: 600; color: var(--emerald-green);">+ Prodotto</a>
+            
+            <a href="/login" class="nav-link nav-cta">Login</a>
         </div>
     </nav> 
 
-    <div style="text-align: center; padding: 60px 20px 20px;">
-        <h2 style="font-size: 2.5rem; color: var(--emerald-green); margin: 0;">Il Nostro Catalogo</h2>
-        <p style="color: var(--text-muted);">Tutti i prodotti rigorosamente selezionati</p>
-    </div>
+    <header class="shop-header">
+        <div class="bismillah" style="color: var(--gold-accent); margin-bottom: 10px;">بسم الله الرحمن الرحيم</div>
+        <h2 style="font-size: 3rem; color: var(--text-main); margin: 0; letter-spacing: -1.5px;">Il Nostro <span>Catalogo</span></h2>
+        <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 10px;">Qualità superiore, scelta con cura per la tua tavola.</p>
+    </header>
 
     <main class="product-grid">
         {{range .}}
@@ -35,5 +105,6 @@
         </div>
         {{end}}
     </main>
+
 </body>
 </html>

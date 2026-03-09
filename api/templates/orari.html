@@ -6,15 +6,83 @@
     <title>Orari Preghiera | Bazahal</title>
     <link rel="stylesheet" href="/static/style.css">
     <script defer src="/_vercel/insights/script.js"></script>
+    <style>
+        /* --- FIX NAVBAR STILE APPLE --- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(20, 33, 24, 0.9); 
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            padding: 0 5%;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(14, 166, 114, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--gold-accent);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 25px; /* Spazio tra i link */
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--gold-accent);
+        }
+
+        /* TASTO LOGIN CON CORNICE COLORATA (CTA) */
+        .nav-cta {
+            background-color: var(--gold-accent);
+            color: #142118 !important; /* Testo scuro per leggibilità */
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+        }
+
+        .nav-cta:hover {
+            transform: scale(1.05);
+            background-color: white;
+        }
+
+        /* Mobile Fix */
+        @media (max-width: 768px) {
+            .nav-menu { gap: 15px; }
+            .nav-link { font-size: 0.8rem; }
+            .nav-cta { padding: 6px 12px; }
+        }
+    </style>
 </head>
 <body style="background-image: url('https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?q=80&w=1470&auto=format&fit=crop'); background-size: cover; background-position: center; background-attachment: fixed; margin: 0; min-height: 100vh; display: flex; flex-direction: column;">
     
     <nav class="navbar">
         <a href="/" class="logo">Bazahal<span>.</span></a>
-        <div>
-            <a href="/orari" class="nav-link" style="margin-right: 15px; color: var(--gold-accent);">Orari</a>
-            <a href="/shop" class="nav-link" style="margin-right: 15px;">Shop</a>
-            <a href="/login" class="nav-link">Login</a>
+        
+        <div class="nav-menu">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/orari" class="nav-link" style="color: var(--gold-accent);">Orari</a>
+            <a href="/shop" class="nav-link">Shop</a>
+            <a href="/macelleriehalal" class="nav-link">Mappa</a>
+            
+            <a href="/login" class="nav-link nav-cta">Login</a>
         </div>
     </nav>
 
@@ -23,9 +91,9 @@
         <div class="prayer-container" style="width: 100%; max-width: 1000px; flex-direction: column; text-align: center; padding: 50px 40px; background: transparent; box-shadow: none;">
             
             <div class="prayer-header" style="margin-bottom: 50px;">
-                <div class="bismillah" style="margin-bottom: 15px; font-size: 1.8rem; color: white;">بسم الله الرحمن الرحيم</div>
+                <div class="bismillah" style="margin-bottom: 15px; font-size: 1.8rem; color: var(--gold-accent);">بسم الله الرحمن الرحيم</div>
                 <h3 style="font-size: 3rem; margin-bottom: 10px; color: white; letter-spacing: -1px;">Orari della Preghiera</h3>
-                <p id="prayer-date" style="font-size: 1.2rem; color: white;">Caricamento data...</p>
+                <p id="prayer-date" style="font-size: 1.2rem; color: white; opacity: 0.8;">Caricamento data...</p>
                 <p id="user-location" style="font-size: 1rem; margin-top: 10px; color: white; opacity: 0.9;">📍 Rilevamento della tua posizione...</p>
             </div>
             
@@ -52,7 +120,6 @@
                         dateText.innerText = `${hijri.day} ${hijri.month.en} ${hijri.year}`;
                         locationText.innerText = `📍 ${cityName}`;
 
-                        // Icone Premium SVG
                         const iconFajr = `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M4.22 10.22l1.42 1.42"/><path d="M18.36 10.22l-1.42 1.42"/><path d="M22 18H2"/><path d="M8 18a4 4 0 1 1 8 0"/></svg>`;
                         const iconDhuhr = `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`;
                         const iconAsr = `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>`;
@@ -71,16 +138,13 @@
 
                         prayers.forEach(prayer => {
                             grid.innerHTML += `
-                                <div class="prayer-card" style="flex: 1 1 150px; min-width: 120px; text-align: center; background: transparent; border: none; box-shadow: none;">
+                                <div class="prayer-card" style="flex: 1 1 150px; min-width: 120px; text-align: center; background: transparent; border: none;">
                                     <span class="prayer-icon" style="display: block; margin-bottom: 12px;">${prayer.icon}</span>
-                                    <span class="prayer-name" style="font-size: 1.4rem; color: white; display: block; margin-bottom: 5px; opacity: 0.9;">${prayer.name}</span>
-                                    <span class="prayer-time" style="font-size: 2.2rem; font-weight: bold; color: white; display: block; letter-spacing: 1px;">${prayer.time}</span>
+                                    <span class="prayer-name" style="font-size: 1.2rem; color: white; display: block; margin-bottom: 5px; opacity: 0.7;">${prayer.name}</span>
+                                    <span class="prayer-time" style="font-size: 2rem; font-weight: bold; color: white; display: block; letter-spacing: 1px;">${prayer.time}</span>
                                 </div>
                             `;
                         });
-                    })
-                    .catch(error => {
-                        grid.innerHTML = '<p style="color: white;">Impossibile caricare gli orari. Controlla la connessione.</p>';
                     });
             }
 
@@ -89,25 +153,17 @@
                     function(position) {
                         const lat = position.coords.latitude;
                         const lng = position.coords.longitude;
-                        
                         fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=it`)
                             .then(res => res.json())
                             .then(geoData => {
-                                const city = geoData.city || geoData.locality || "La tua posizione esatta";
+                                const city = geoData.city || geoData.locality || "Posizione Rilevata";
                                 fetchPrayerTimes(lat, lng, city + ", " + geoData.countryCode);
-                            })
-                            .catch(() => {
-                                fetchPrayerTimes(lat, lng, "Posizione Rilevata");
                             });
                     },
                     function(error) {
-                        locationText.innerText = "📍 Posizione negata. Mostro: Milano, IT";
                         fetchPrayerTimes(45.4642, 9.1900, "Milano, IT");
                     }
                 );
-            } else {
-                locationText.innerText = "📍 Geolocalizzazione non supportata. Mostro: Milano, IT";
-                fetchPrayerTimes(45.4642, 9.1900, "Milano, IT");
             }
         });
     </script>
