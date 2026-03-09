@@ -19,16 +19,16 @@
 
     <div style="flex-grow: 1; background: rgba(20, 33, 24, 0.85); padding: 80px 20px; display: flex; align-items: center; justify-content: center;">
         
-        <div class="prayer-container" style="width: 100%; max-width: 800px; flex-direction: column; text-align: center; padding: 50px 40px;">
-            <div class="prayer-header" style="margin-bottom: 40px;">
+        <div class="prayer-header" style="margin-bottom: 40px;">
                 <div class="bismillah" style="margin-bottom: 15px; font-size: 1.5rem;">بسم الله الرحمن الرحيم</div>
                 <h3 style="font-size: 2.2rem; margin-bottom: 10px;">Orari della Preghiera</h3>
                 <p id="prayer-date" style="font-size: 1.2rem; color: var(--gold-accent);">Caricamento data...</p>
-                <p style="font-size: 0.95rem; margin-top: 10px; opacity: 0.7;">📍 Milano, Italia</p>
+                
+                <p id="user-location" style="font-size: 0.95rem; margin-top: 10px; opacity: 0.7;">📍 Rilevamento della tua posizione...</p>
             </div>
             
             <div class="prayer-grid" id="prayer-grid" style="justify-content: center; width: 100%;">
-                <p style="color: white; opacity: 0.7;">Calcolando gli orari in tempo reale...</p>
+                <p style="color: white; opacity: 0.7; font-size: 1.1rem;">In attesa di calcolare gli orari...</p>
             </div>
         </div>
 
@@ -36,38 +36,78 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            fetch('https://api.aladhan.com/v1/timingsByCity?city=Milan&country=Italy&method=3')
-                .then(response => response.json())
-                .then(data => {
-                    const timings = data.data.timings;
-                    const hijri = data.data.date.hijri;
-                    
-                    document.getElementById('prayer-date').innerText = `${hijri.day} ${hijri.month.en} ${hijri.year}`;
+            const grid = document.getElementById('prayer-grid');
+            const locationText = document.getElementById('user-location');
+            const dateText = document.getElementById('prayer-date');
 
-                    const prayers = [
-                        { name: 'Fajr', time: timings.Fajr, icon: '🌅' },
-                        { name: 'Dhuhr', time: timings.Dhuhr, icon: '☀️' },
-                        { name: 'Asr', time: timings.Asr, icon: '🌤️' },
-                        { name: 'Maghrib', time: timings.Maghrib, icon: '🌇' },
-                        { name: 'Isha', time: timings.Isha, icon: '🌙' }
-                    ];
+            // 1. La funzione che calcola gli orari in base alle coordinate esatte
+            function fetchPrayerTimes(lat, lng, cityName) {
+                // Noterai che ora usa "latitude" e "longitude" invece della città fissa!
+                fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=3`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const timings = data.data.timings;
+                        const hijri = data.data.date.hijri;
+                        
+                        // Scrive la data araba e la città trovata
+                        dateText.innerText = `${hijri.day} ${hijri.month.en} ${hijri.year}`;
+                        locationText.innerText = `📍 ${cityName}`;
 
-                    const grid = document.getElementById('prayer-grid');
-                    grid.innerHTML = ''; 
+                        const prayers = [
+                            { name: 'Fajr', time: timings.Fajr, icon: '🌅' },
+                            { name: 'Dhuhr', time: timings.Dhuhr, icon: '☀️' },
+                            { name: 'Asr', time: timings.Asr, icon: '🌤️' },
+                            { name: 'Maghrib', time: timings.Maghrib, icon: '🌇' },
+                            { name: 'Isha', time: timings.Isha, icon: '🌙' }
+                        ];
 
-                    prayers.forEach(prayer => {
-                        grid.innerHTML += `
-                            <div class="prayer-card" style="flex: 1 1 calc(30% - 15px); min-width: 120px; padding: 25px 15px;">
-                                <span class="prayer-icon" style="font-size: 2.5rem;">${prayer.icon}</span>
-                                <span class="prayer-name" style="font-size: 0.9rem;">${prayer.name}</span>
-                                <span class="prayer-time" style="font-size: 1.6rem;">${prayer.time}</span>
-                            </div>
-                        `;
+                        grid.innerHTML = ''; 
+
+                        prayers.forEach(prayer => {
+                            grid.innerHTML += `
+                                <div class="prayer-card" style="flex: 1 1 calc(30% - 15px); min-width: 120px; padding: 25px 15px;">
+                                    <span class="prayer-icon" style="font-size: 2.5rem;">${prayer.icon}</span>
+                                    <span class="prayer-name" style="font-size: 0.9rem;">${prayer.name}</span>
+                                    <span class="prayer-time" style="font-size: 1.6rem;">${prayer.time}</span>
+                                </div>
+                            `;
+                        });
+                    })
+                    .catch(error => {
+                        grid.innerHTML = '<p style="color: white;">Impossibile caricare gli orari. Controlla la connessione.</p>';
                     });
-                })
-                .catch(error => {
-                    document.getElementById('prayer-grid').innerHTML = '<p style="color: white;">Impossibile caricare gli orari. Controlla la connessione.</p>';
-                });
+            }
+
+            // 2. Chiediamo al Browser il permesso per il GPS
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    // SE L'UTENTE ACCETTA:
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        
+                        // Usiamo un'altra API per tradurre il GPS nel nome della sua città!
+                        fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=it`)
+                            .then(res => res.json())
+                            .then(geoData => {
+                                const city = geoData.city || geoData.locality || "La tua posizione esatta";
+                                fetchPrayerTimes(lat, lng, city + ", " + geoData.countryCode);
+                            })
+                            .catch(() => {
+                                fetchPrayerTimes(lat, lng, "Posizione Rilevata");
+                            });
+                    },
+                    // SE L'UTENTE RIFIUTA (O ha il GPS spento):
+                    function(error) {
+                        locationText.innerText = "📍 Posizione negata. Mostro: Milano, IT";
+                        fetchPrayerTimes(45.4642, 9.1900, "Milano, IT");
+                    }
+                );
+            } else {
+                // Se il browser è antichissimo:
+                locationText.innerText = "📍 Geolocalizzazione non supportata. Mostro: Milano, IT";
+                fetchPrayerTimes(45.4642, 9.1900, "Milano, IT");
+            }
         });
     </script>
 </body>
