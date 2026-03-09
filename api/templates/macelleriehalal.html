@@ -6,7 +6,24 @@
     <title>Trova Halal | Bazahal</title>
     <link rel="stylesheet" href="/static/style.css">
     <style>
-        .map-section { padding: 60px 5%; text-align: center; }
+        .map-section { padding: 40px 5%; text-align: center; }
+        
+        .search-container {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .search-input {
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 2px solid var(--emerald-green);
+            width: 300px;
+            font-size: 1rem;
+            outline: none;
+        }
+
         .map-wrapper {
             max-width: 1000px;
             margin: 0 auto;
@@ -15,15 +32,17 @@
             overflow: hidden;
             box-shadow: 0 15px 40px rgba(14, 166, 114, 0.1);
             border: 1px solid rgba(14, 166, 114, 0.1);
-            min-height: 500px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-        iframe { width: 100%; height: 500px; border: none; }
+
+        iframe { 
+            width: 100%; 
+            height: 550px; 
+            border: none;
+        }
     </style>
 </head>
 <body>
+
     <nav class="navbar">
         <a href="/" class="logo">Bazahal<span>.</span></a>
         <div>
@@ -33,55 +52,62 @@
         </div>
     </nav>
 
-    <header class="hero" style="background-image: url('https://images.unsplash.com/photo-1534120247760-c44c3e4a62f1?q=80&w=1470&auto=format&fit=crop'); min-height: 35vh; padding: 100px 20px 50px;">
+    <header class="hero" style="background-image: url('https://images.unsplash.com/photo-1534120247760-c44c3e4a62f1?q=80&w=1470&auto=format&fit=crop'); min-height: 30vh; padding: 80px 20px 40px;">
         <div class="hero-content">
             <div class="bismillah">بسم الله الرحمن الرحيم</div>
-            <h1>Qualità Halal<br><span>Intorno a te.</span></h1>
-            <p>Trova macellerie e ristoranti certificati a Milano e dintorni.</p>
+            <h1>Cerca Halal<br><span>Nella tua città.</span></h1>
+            <p>Inserisci la tua città per vedere subito le macellerie e i ristoranti più vicini.</p>
         </div>
     </header>
 
     <section class="map-section">
+        <div class="search-container">
+            <input type="text" id="cityInput" class="search-input" placeholder="Esempio: Milano, Roma, Torino...">
+            <button onclick="cercaCitta()" class="buy-btn" style="cursor: pointer; border: none;">Cerca</button>
+        </div>
+
         <div class="map-wrapper" id="map-container">
-            <div id="placeholder" style="padding: 40px;">
-                <button onclick="getLocation()" class="buy-btn" style="cursor: pointer; border: none;">
-                    📍 Usa la mia posizione
-                </button>
-            </div>
+            <iframe 
+                id="mapFrame"
+                src="https://maps.google.com/maps?q=macelleria+halal+italia&t=&z=6&ie=UTF8&iwloc=&output=embed" 
+                allowfullscreen>
+            </iframe>
         </div>
     </section>
-
-    <script>
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showMap, showError);
-            } else {
-                alert("La geolocalizzazione non è supportata dal tuo browser.");
-                showMap(); // Carica mappa generica
-            }
+<script>
+    function cercaCitta() {
+        const citta = document.getElementById('cityInput').value;
+        if (citta.trim() === "") {
+            alert("Per favore, inserisci il nome di una città.");
+            return;
         }
 
-        function showMap(position) {
-            let lat = 45.4642; // Default Milano
-            let lon = 9.1900;
-            
-            if(position) {
-                lat = position.coords.latitude;
-                lon = position.coords.longitude;
-            }
+        // Creiamo la ricerca specifica
+        const termineRicerca = "macelleria+ristorante+halal+" + citta.replace(/\s+/g, '+');
+        
+        // Questo URL è più potente e forza Google a mostrare i risultati locali
+        const embedUrl = `https://maps.google.com/maps?q=${termineRicerca}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
+        
+        const container = document.getElementById('map-container');
+        
+        // Aggiorniamo l'iframe con un piccolo trucco per "forzare" il ricaricamento
+        container.innerHTML = `
+            <iframe 
+                id="mapFrame"
+                src="${embedUrl}" 
+                allowfullscreen
+                style="width:100%; height:550px; border:none;">
+            </iframe>
+        `;
+    }
 
-            // URL di embed ufficiale che punta a Milano/tua posizione
-            const searchUrl = `https://www.google.com/maps/search/?api=1&query=macelleria+halal9`;
-            
-            document.getElementById('map-container').innerHTML = `
-                <iframe src="${searchUrl}" allowfullscreen="" loading="lazy"></iframe>
-            `;
+    // Permetti di premere "Invio"
+    document.getElementById("cityInput").addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+            cercaCitta();
         }
+    });
+</script>
 
-        function showError(error) {
-            console.warn("Errore GPS, carico mappa su Milano.");
-            showMap(); 
-        }
-    </script>
 </body>
 </html>
