@@ -221,6 +221,66 @@ body {
     border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: 0.2s;
 }
 .submit-btn:hover { background: #0b8a5d; }
+/* =========================================
+   ✨ SEZIONE BENEFICI (HOME PAGE)
+   ========================================= */
+.info-section {
+    padding: 100px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+.info-section h2 {
+    font-size: 3rem;
+    color: var(--text-main);
+    margin-bottom: 20px;
+    letter-spacing: -1.5px;
+}
+.info-section h2 span {
+    color: var(--gold-accent);
+}
+.info-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto 60px;
+    line-height: 1.6;
+}
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+.feature-box {
+    background: var(--card-bg);
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(14, 166, 114, 0.05);
+    transition: transform 0.3s ease;
+    text-align: left;
+    border-top: 3px solid transparent;
+}
+.feature-box:hover {
+    transform: translateY(-5px);
+    border-top: 3px solid var(--emerald-green);
+}
+.feature-icon {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+.feature-box h3 {
+    font-size: 1.5rem;
+    color: var(--text-main);
+    margin-bottom: 15px;
+    letter-spacing: -0.5px;
+}
+.feature-box p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-size: 1.05rem;
+    margin: 0;
+}
 
 /* =========================================
    📱 RESPONSIVITA' MOBILE (SMARTPHONE)
@@ -264,4 +324,6 @@ body {
     .form-container h2 {
         font-size: 1.8rem !important;
     }
+    .info-section { padding: 60px 20px; }
+    .info-section h2 { font-size: 2.2rem; }
 }
