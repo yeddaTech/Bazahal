@@ -1,40 +1,7 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrati | Bazahal</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="/" class="logo">Bazahal<span>.</span></a>
-        <div>
-            <a href="/shop" class="nav-link" style="margin-right: 15px;">Shop</a>
-            <a href="/login" class="nav-link">Login</a>
-        </div>
-    </nav>
-
-    <div class="form-container" style="margin-top: 80px;">
-        <div class="bismillah" style="text-align: center; margin-bottom: 15px; font-size: 1.4rem;">بسم الله الرحمن الرحيم</div>
-        <h2 style="margin-top:0; margin-bottom:30px; font-size: 2.2rem; color: var(--emerald-green); letter-spacing: -1px; text-align: center;">Crea Account</h2>
-        
-        <form action="/register" method="POST">
-            <div class="form-group">
-                <label>Scegli uno Username</label>
-                <input type="text" name="username" required placeholder="Es. admin">
-            </div>
-            <div class="form-group">
-                <label>Crea una Password</label>
-                <input type="password" name="password" required placeholder="Almeno 6 caratteri">
-            </div>
-            <button type="submit" class="submit-btn">Registrati</button>
-        </form>
-        
-        <p style="text-align: center; margin-top: 20px; color: var(--text-muted);">
-            Hai già un account? <a href="/login" style="color: var(--emerald-green); font-weight: bold; text-decoration: none;">Accedi qui</a>
-        </p>
-    </div>
 </body>
 </html>

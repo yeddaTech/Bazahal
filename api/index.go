@@ -46,8 +46,17 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 4. UPLOAD PAGE
+	// 4. UPLOAD PAGE (BLINDATA CON COOKIE)
 	if percorso == "/upload" {
+		// 🛑 IL BUTTAFUORI: Controlla se l'utente ha il Cookie VIP
+		cookie, err := r.Cookie("admin_session")
+		if err != nil || cookie.Value != "loggato_con_successo" {
+			// Niente cookie o cookie sbagliato? Fuori! Rimbalzato alla home.
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
+
+		// Se ha il cookie, lo facciamo passare alle funzionalità di upload
 		if r.Method == http.MethodGet {
 			tmpl, _ := template.ParseFS(embeddedFiles, "templates/upload.html")
 			tmpl.Execute(w, nil)
@@ -85,7 +94,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// 6. LOGIN
+	// 6. LOGIN (GENERA IL COOKIE)
 	if percorso == "/login" {
 		if r.Method == http.MethodGet {
 			tmpl, _ := template.ParseFS(embeddedFiles, "templates/login.html")
@@ -99,6 +108,17 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 			password := r.FormValue("password")
 
 			if handlers.LoginUser(username, password) {
+				// 🔥 CREIAMO IL COOKIE "VIP"
+				cookie := &http.Cookie{
+					Name:     "admin_session",
+					Value:    "loggato_con_successo",
+					Path:     "/",
+					HttpOnly: true,  // Lo nasconde agli script JS (sicurezza extra)
+					MaxAge:   86400, // Dura 24 ore (in secondi)
+				}
+				http.SetCookie(w, cookie) // Incolla il cookie sul browser
+
+				// Reindirizza al quartier generale
 				http.Redirect(w, r, "/upload", http.StatusSeeOther)
 				return
 			} else {
@@ -127,6 +147,20 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		tmpl.Execute(w, nil)
+		return
+	}
+
+	// 9. LOGOUT (DISTRUGGE IL COOKIE)
+	if percorso == "/logout" {
+		cookie := &http.Cookie{
+			Name:     "admin_session",
+			Value:    "",
+			Path:     "/",
+			HttpOnly: true,
+			MaxAge:   -1, // Il valore negativo distrugge istantaneamente il cookie
+		}
+		http.SetCookie(w, cookie)
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 

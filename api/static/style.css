@@ -317,37 +317,67 @@ body {
 }
 
 /* =========================================
-   📱 RESPONSIVITA' MOBILE (SMARTPHONE)
+   🍔 MENU HAMBURGER (Stile Apple)
    ========================================= */
-    @media (max-width: 768px) {
-    /* Ridimensioniamo la navbar per dare più spazio ai contenuti */
-    .navbar {
-        height: 65px;
-        padding: 0 4%;
+.nav-links {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+/* Bottone invisibile sui PC */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 999; /* Deve stare sempre sopra a tutto */
+}
+.hamburger span {
+    width: 25px;
+    height: 2px;
+    background-color: white; /* Lineette bianche */
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+/* 📱 QUANDO LO SCHERMO DIVENTA PICCOLO (TELEFONI) */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex; /* Mostra le tre lineette */
     }
 
-    .logo {
-        font-size: 1.2rem; /* Logo leggermente più piccolo */
+    .nav-links {
+        position: absolute;
+        top: 70px;
+        right: 5%;
+        background: rgba(20, 33, 24, 0.95); /* Sfondo scuro elegante */
+        backdrop-filter: blur(10px); /* Effetto vetro Apple */
+        -webkit-backdrop-filter: blur(10px);
+        flex-direction: column;
+        width: 200px;
+        padding: 25px 20px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        border: 1px solid rgba(255,255,255,0.05);
+        
+        /* Nascosto e spostato in alto di default */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-15px);
+        transition: all 0.3s ease;
+        z-index: 998;
     }
 
-    /* Rendiamo il menu orizzontale e scorrevole se i link sono troppi */
-    .nav-menu {
-        gap: 12px; /* Riduciamo lo spazio tra i link */
+    /* La classe "active" viene aggiunta dal JavaScript quando tocchi il bottone */
+    .nav-links.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
     }
 
-    .nav-link {
-        font-size: 0.75rem; /* Font più piccolo per stare su una riga */
-        font-weight: 600;
-        letter-spacing: -0.2px;
-    }
-
-    /* Tasto Login compatto ma sempre evidente */
-    .nav-cta {
-        padding: 6px 14px;
-        font-size: 0.75rem;
-        border-radius: 40px;
-    }
-
-    /* Opzionale: se i link sono troppi, permettiamo lo scroll orizzontale solo ai link */
-    /* .nav-menu { overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; } */
+    /* Animazione magica: Le 3 lineette si trasformano in una "X" */
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 }

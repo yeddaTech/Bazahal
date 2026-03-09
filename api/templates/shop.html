@@ -74,16 +74,18 @@
     <nav class="navbar">
         <a href="/" class="logo">Bazahal<span>.</span></a>
         
-        <div class="nav-menu">
-            <a href="/" class="nav-link">Home</a>
-            <a href="/orari" class="nav-link">Orari</a>
-            <a href="/shop" class="nav-link" style="color: var(--gold-accent);">Shop</a>
-            <a href="/macelleriehalal" class="nav-link">Mappa</a>
-            <a href="/upload" class="nav-link" style="font-weight: 600; color: var(--emerald-green);">+ Prodotto</a>
-            
-            <a href="/login" class="nav-link nav-cta">Login</a>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-    </nav> 
+
+        <div class="nav-links" id="nav-links">
+            <a href="/orari" class="nav-link">Orari</a>
+            <a href="/macelleriehalal" class="nav-link">Mappa</a>
+            <a href="/shop" class="nav-link">Shop</a>
+        </div>
+    </nav>
 
     <header class="shop-header">
         <div class="bismillah" style="color: var(--gold-accent); margin-bottom: 10px;">بسم الله الرحمن الرحيم</div>
@@ -105,6 +107,19 @@
         </div>
         {{end}}
     </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const hamburger = document.getElementById("hamburger");
+            const navLinks = document.getElementById("nav-links");
 
+            if (hamburger && navLinks) {
+                hamburger.addEventListener("click", () => {
+                    // Mette e toglie la classe "active" per far partire l'animazione CSS
+                    hamburger.classList.toggle("active");
+                    navLinks.classList.toggle("active");
+                });
+            }
+        });
+    </script>
 </body>
 </html>

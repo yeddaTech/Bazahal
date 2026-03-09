@@ -9,16 +9,20 @@
 </head>
 <body>
     <nav class="navbar">
-    <a href="/" class="logo">Bazahal<span>.</span></a>
-
-    <div class="nav-menu">
-        <a href="/orari" class="nav-link">Orari</a>
-        <a href="/shop" class="nav-link">Shop</a>
-        <a href="/macelleriehalal" class="nav-link">Trova Vicino a Me</a>
+        <a href="/" class="logo">Bazahal<span>.</span></a>
         
-        <a href="/login" class="nav-link nav-cta">Login</a>
-    </div>
-</nav>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="nav-links">
+            <a href="/orari" class="nav-link">Orari</a>
+            <a href="/macelleriehalal" class="nav-link">Mappa</a>
+            <a href="/shop" class="nav-link">Shop</a>
+        </div>
+    </nav>
 
     <header class="hero" style="background-image: url('https://images.unsplash.com/photo-1570206916435-745fc43bb9c1?q=80&w=1470&auto=format&fit=crop');">
         <div class="hero-content">
@@ -52,6 +56,20 @@
             </div>
         </div>
     </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const hamburger = document.getElementById("hamburger");
+            const navLinks = document.getElementById("nav-links");
+
+            if (hamburger && navLinks) {
+                hamburger.addEventListener("click", () => {
+                    // Mette e toglie la classe "active" per far partire l'animazione CSS
+                    hamburger.classList.toggle("active");
+                    navLinks.classList.toggle("active");
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>
