@@ -19,16 +19,17 @@
 
     <div style="flex-grow: 1; background: rgba(20, 33, 24, 0.85); padding: 80px 20px; display: flex; align-items: center; justify-content: center;">
         
-        <div class="prayer-header" style="margin-bottom: 40px;">
-                <div class="bismillah" style="margin-bottom: 15px; font-size: 1.5rem;">بسم الله الرحمن الرحيم</div>
-                <h3 style="font-size: 2.2rem; margin-bottom: 10px;">Orari della Preghiera</h3>
-                <p id="prayer-date" style="font-size: 1.2rem; color: var(--gold-accent);">Caricamento data...</p>
-                
-                <p id="user-location" style="font-size: 0.95rem; margin-top: 10px; opacity: 0.7;">📍 Rilevamento della tua posizione...</p>
+        <div class="prayer-container" style="width: 100%; max-width: 1000px; flex-direction: column; text-align: center; padding: 50px 40px; background: transparent; box-shadow: none;">
+            
+            <div class="prayer-header" style="margin-bottom: 50px;">
+                <div class="bismillah" style="margin-bottom: 15px; font-size: 1.8rem; color: white;">بسم الله الرحمن الرحيم</div>
+                <h3 style="font-size: 3rem; margin-bottom: 10px; color: white; letter-spacing: -1px;">Orari della Preghiera</h3>
+                <p id="prayer-date" style="font-size: 1.2rem; color: white;">Caricamento data...</p>
+                <p id="user-location" style="font-size: 1rem; margin-top: 10px; color: white; opacity: 0.9;">📍 Rilevamento della tua posizione...</p>
             </div>
             
-            <div class="prayer-grid" id="prayer-grid" style="justify-content: center; width: 100%;">
-                <p style="color: white; opacity: 0.7; font-size: 1.1rem;">In attesa di calcolare gli orari...</p>
+            <div class="prayer-grid" id="prayer-grid" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: 40px; width: 100%;">
+                <p style="color: white; opacity: 0.9; font-size: 1.1rem;">In attesa di calcolare gli orari...</p>
             </div>
         </div>
 
@@ -41,33 +42,38 @@
             const dateText = document.getElementById('prayer-date');
 
             function fetchPrayerTimes(lat, lng, cityName) {
-                // Noterai che ora usa "latitude" e "longitude" invece della città fissa!
                 fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=3`)
                     .then(response => response.json())
                     .then(data => {
                         const timings = data.data.timings;
                         const hijri = data.data.date.hijri;
                         
-                        // Scrive la data araba e la città trovata
                         dateText.innerText = `${hijri.day} ${hijri.month.en} ${hijri.year}`;
                         locationText.innerText = `📍 ${cityName}`;
 
+                        // Icone Premium SVG
+                        const iconFajr = `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M4.22 10.22l1.42 1.42"/><path d="M18.36 10.22l-1.42 1.42"/><path d="M22 18H2"/><path d="M8 18a4 4 0 1 1 8 0"/></svg>`;
+                        const iconDhuhr = `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`;
+                        const iconAsr = `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>`;
+                        const iconMaghrib = `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="9" x2="12" y2="2"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/></svg>`;
+                        const iconIsha = `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+
                         const prayers = [
-                            { name: 'Fajr', time: timings.Fajr, icon: '🌅' },
-                            { name: 'Dhuhr', time: timings.Dhuhr, icon: '☀️' },
-                            { name: 'Asr', time: timings.Asr, icon: '🌤️' },
-                            { name: 'Maghrib', time: timings.Maghrib, icon: '🌇' },
-                            { name: 'Isha', time: timings.Isha, icon: '🌙' }
+                            { name: 'Fajr', time: timings.Fajr, icon: iconFajr },
+                            { name: 'Dhuhr', time: timings.Dhuhr, icon: iconDhuhr },
+                            { name: 'Asr', time: timings.Asr, icon: iconAsr },
+                            { name: 'Maghrib', time: timings.Maghrib, icon: iconMaghrib },
+                            { name: 'Isha', time: timings.Isha, icon: iconIsha }
                         ];
 
                         grid.innerHTML = ''; 
 
                         prayers.forEach(prayer => {
                             grid.innerHTML += `
-                                <div class="prayer-card" style="flex: 1 1 calc(30% - 15px); min-width: 120px; padding: 25px 15px;">
-                                    <span class="prayer-icon" style="font-size: 2.5rem;">${prayer.icon}</span>
-                                    <span class="prayer-name" style="font-size: 0.9rem;">${prayer.name}</span>
-                                    <span class="prayer-time" style="font-size: 1.6rem;">${prayer.time}</span>
+                                <div class="prayer-card" style="flex: 1 1 150px; min-width: 120px; text-align: center; background: transparent; border: none; box-shadow: none;">
+                                    <span class="prayer-icon" style="display: block; margin-bottom: 12px;">${prayer.icon}</span>
+                                    <span class="prayer-name" style="font-size: 1.4rem; color: white; display: block; margin-bottom: 5px; opacity: 0.9;">${prayer.name}</span>
+                                    <span class="prayer-time" style="font-size: 2.2rem; font-weight: bold; color: white; display: block; letter-spacing: 1px;">${prayer.time}</span>
                                 </div>
                             `;
                         });
@@ -77,15 +83,12 @@
                     });
             }
 
-            // 2. Chiediamo al Browser il permesso per il GPS
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    // SE L'UTENTE ACCETTA:
                     function(position) {
                         const lat = position.coords.latitude;
                         const lng = position.coords.longitude;
                         
-                        // Usiamo un'altra API per tradurre il GPS nel nome della sua città!
                         fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=it`)
                             .then(res => res.json())
                             .then(geoData => {
@@ -96,14 +99,12 @@
                                 fetchPrayerTimes(lat, lng, "Posizione Rilevata");
                             });
                     },
-                    // SE L'UTENTE RIFIUTA (O ha il GPS spento):
                     function(error) {
                         locationText.innerText = "📍 Posizione negata. Mostro: Milano, IT";
                         fetchPrayerTimes(45.4642, 9.1900, "Milano, IT");
                     }
                 );
             } else {
-                // Se il browser è antichissimo:
                 locationText.innerText = "📍 Geolocalizzazione non supportata. Mostro: Milano, IT";
                 fetchPrayerTimes(45.4642, 9.1900, "Milano, IT");
             }
