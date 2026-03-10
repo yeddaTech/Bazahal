@@ -74,6 +74,37 @@
             text-align: center;
             padding: 80px 20px 40px;
         }
+        /* =========================================
+    🔍 BARRA DI RICERCA SHOP
+    ========================================= */
+    .search-container {
+        text-align: center;
+        margin: 30px auto 40px auto;
+        max-width: 600px;
+        padding: 0 20px;
+    }
+
+    .search-bar {
+        width: 100%;
+        padding: 16px 25px;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        border: 2px solid rgba(212, 175, 55, 0.3); /* Bordo dorato leggero */
+        background-color: #0b120d; /* Il tuo verde scuro */
+        color: white;
+        outline: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .search-bar:focus {
+        border-color: #d4af37; /* Diventa oro acceso quando ci clicchi */
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+    }
+
+    .search-bar::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
     </style>
 </head>
 <body>
@@ -98,6 +129,10 @@
         <h2 style="font-size: 3rem; color: var(--text-main); margin: 0; letter-spacing: -1.5px;">Il Nostro <span>Catalogo</span></h2>
         <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 10px;">Qualità superiore, scelta con cura per la tua tavola.</p>
     </header>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Cerca datteri, profumi, carne...">
+    </div>
 
     <main class="product-grid">
         {{range .}}
@@ -186,6 +221,35 @@
                     localStorage.setItem("bazahal_cookie_accepted", "true");
                     // Nasconde il banner facendolo scivolare giù
                     cookieBanner.classList.remove("show");
+                });
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const searchInput = document.getElementById("searchInput");
+            
+            // Assicurati che la classe '.product-card' sia quella giusta che usi per i tuoi prodotti!
+            // Se li hai chiamati diversamente (es. '.card' o '.prodotto'), cambialo qui sotto.
+            const products = document.querySelectorAll(".product-card");
+
+            if(searchInput) {
+                searchInput.addEventListener("keyup", function() {
+                    // Prende quello che scrivi e lo fa tutto minuscolo
+                    let searchQuery = this.value.toLowerCase();
+
+                    products.forEach(function(product) {
+                        // Cerca il titolo (h3) e la descrizione (p) dentro la card
+                        let productName = product.querySelector("h3") ? product.querySelector("h3").innerText.toLowerCase() : "";
+                        let productDesc = product.querySelector("p") ? product.querySelector("p").innerText.toLowerCase() : "";
+
+                        // Se la parola cercata è nel titolo o nella descrizione, lo mostra, altrimenti lo nasconde
+                        if (productName.includes(searchQuery) || productDesc.includes(searchQuery)) {
+                            product.style.display = ""; // Usa il display di default (flex o block)
+                        } else {
+                            product.style.display = "none"; // Nasconde il prodotto
+                        }
+                    });
                 });
             }
         });
