@@ -164,5 +164,13 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.NotFound(w, r)
+	// 10. PAGINA 404 PERSONALIZZATA
+	w.WriteHeader(http.StatusNotFound) // Dice al browser che la pagina è un errore 404 reale
+	tmpl, err := template.ParseFS(embeddedFiles, "templates/404.html")
+	if err == nil {
+		tmpl.Execute(w, nil)
+	} else {
+		// Fallback di sicurezza se per caso elimini il file 404.html
+		http.NotFound(w, r)
+	}
 }

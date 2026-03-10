@@ -3,34 +3,38 @@ package database
 import (
 	"database/sql"
 	"log"
-	"os" // Aggiunto per leggere le variabili d'ambiente
+	"os"
 
-	_ "github.com/lib/pq" // Driver per PostgreSQL
+	"github.com/joho/godotenv" // Il pacchetto per leggere il .env
+	_ "github.com/lib/pq"
 )
 
-// DB è una variabile globale esportata che gli altri pacchetti useranno
 var DB *sql.DB
 
-// Connect inizializza la connessione al database
 func Connect() {
-	// 1. Prova a leggere l'URL del cloud (Neon) dalle variabili di sistema
+	// 1. Prova a caricare il file .env (questo funzionerà sul tuo PC locale)
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Info: Nessun file .env trovato, userò le variabili di sistema (tipico su Vercel)")
+	}
+
+	// 2. Legge la stringa magica dalla cassaforte (o da Vercel)
 	connStr := os.Getenv("DATABASE_URL")
 
-	// 2. Se è vuoto (ovvero sei sul tuo PC in locale), usa il tuo database locale
+	// 3. Se la cassaforte è vuota, blocchiamo tutto prima di fare danni
 	if connStr == "" {
-		connStr = "user=postgres password=aicha dbname=halalshop sslmode=disable"
+		log.Fatal("ERRORE FATALE: Variabile DATABASE_URL mancante! Controlla il file .env o le impostazioni di Vercel.")
 	}
 
-	var err error
-	DB, err = sql.Open("postgres", connStr)
-	if err != nil {
-		log.Fatal("Errore di connessione a Postgres:", err)
+	var dbErr error
+	DB, dbErr = sql.Open("postgres", connStr)
+	if dbErr != nil {
+		log.Fatal("Errore di connessione a Postgres:", dbErr)
 	}
 
-	// Verifica che la connessione sia effettivamente attiva
-	if err = DB.Ping(); err != nil {
-		log.Fatal("Impossibile raggiungere il database:", err)
+	if dbErr = DB.Ping(); dbErr != nil {
+		log.Fatal("Impossibile raggiungere il database:", dbErr)
 	}
 
-	log.Println("Connesso al database con successo!")
+	log.Println("Connesso al database con successo in totale sicurezza!")
 }

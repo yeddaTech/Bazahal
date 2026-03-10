@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orari Preghiera | Bazahal</title>
+    <link rel="icon" type="image/png" href="/static/favicon.png">
     <link rel="stylesheet" href="/static/style.css">
     <script defer src="/_vercel/insights/script.js"></script>
     <style>
@@ -106,6 +107,37 @@
         </div>
 
     </div>
+    <footer class="footer">
+        <div class="footer-content">
+            
+            <div class="footer-brand">
+                <h2>Bazahal<span>.</span></h2>
+                <p>L'eccellenza Halal a portata di click. Selezioniamo i migliori prodotti per te con cura e dedizione.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Link Utili</h3>
+                <a href="/shop">Shop Affiliazioni</a>
+                <a href="/orari">Orari Preghiera</a>
+                <a href="/macelleriehalal">Macellerie Halal</a>
+            </div>
+            
+            <div class="footer-social">
+                <h3>Seguici</h3>
+                <a href="#">Instagram</a>
+                <a href="#">TikTok</a>
+                <a href="mailto:info@bazahal.com">Contattaci</a>
+            </div>
+            
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 Bazahal. Tutti i diritti riservati.</p>
+            <p style="font-size: 0.8rem; opacity: 0.5; margin-top: 8px;">
+                In qualità di Affiliato, Bazahal riceve un guadagno dagli acquisti idonei generati tramite i link presenti sul sito.
+            </p>
+        </div>
+    </footer>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -180,6 +212,38 @@
                     // Mette e toglie la classe "active" per far partire l'animazione CSS
                     hamburger.classList.toggle("active");
                     navLinks.classList.toggle("active");
+                });
+            }
+        });
+    </script>
+    <div id="cookie-banner" class="cookie-banner">
+        <p>
+            Utilizziamo cookie tecnici e analitici per garantirti la migliore esperienza sul nostro sito e comprendere come viene utilizzato. 
+            Continuando a navigare, accetti la nostra policy.
+        </p>
+        <button id="accept-cookies" class="cookie-btn">Accetto</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cookieBanner = document.getElementById("cookie-banner");
+            const acceptBtn = document.getElementById("accept-cookies");
+
+            // Controlla nella memoria del telefono se ha già accettato in passato
+            if (!localStorage.getItem("bazahal_cookie_accepted")) {
+                // Aspetta mezzo secondo per far caricare la pagina, poi fa salire il banner
+                setTimeout(() => {
+                    cookieBanner.classList.add("show");
+                }, 500);
+            }
+
+            // Quando l'utente clicca il bottone "Accetto"
+            if (acceptBtn) {
+                acceptBtn.addEventListener("click", () => {
+                    // Salva un appunto nella memoria del telefono: "Questo tizio ha accettato"
+                    localStorage.setItem("bazahal_cookie_accepted", "true");
+                    // Nasconde il banner facendolo scivolare giù
+                    cookieBanner.classList.remove("show");
                 });
             }
         });

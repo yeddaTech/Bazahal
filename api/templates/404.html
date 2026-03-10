@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina Non Trovata | Bazahal</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+    <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body style="background-color: #0b120d; color: white; display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
+
+    <nav class="navbar">
+        <a href="/" class="logo">Bazahal<span>.</span></a>
+        
+        <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+
+        <div class="nav-links" id="nav-links">
+            <a href="/orari" class="nav-link">Orari</a>
+            <a href="/macelleriehalal" class="nav-link">Macellerie</a>
+            <a href="/shop" class="nav-link">Shop</a>
+        </div>
+    </nav>
+
+    <div style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;">
+        <h1 style="font-size: 8rem; margin: 0; color: #d4af37; line-height: 1;">404</h1>
+        <h2 style="font-size: 2rem; margin-top: 10px; margin-bottom: 20px;">Ops! Ti sei perso nel deserto... 🐪</h2>
+        <p style="opacity: 0.8; font-size: 1.1rem; max-width: 500px; margin-bottom: 40px;">
+            La pagina che stai cercando non esiste, è stata spostata, o forse era solo un miraggio.
+        </p>
+        <a href="/" style="background-color: #d4af37; color: #0b120d; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; transition: opacity 0.3s ease;">
+            Torna all'Oasi (Home)
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const hamburger = document.getElementById("hamburger");
+            const navLinks = document.getElementById("nav-links");
+            if (hamburger && navLinks) {
+                hamburger.addEventListener("click", () => {
+                    hamburger.classList.toggle("active");
+                    navLinks.classList.toggle("active");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

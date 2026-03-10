@@ -1,0 +1,11 @@
+# Nascondi le password e le casseforti
+.env
+
+# Ignora i file di sistema del Mac/Windows
+.DS_Store
+Thumbs.db
+
+# Ignora i file compilati di Go
+*.exe
+*.out
+bin/
