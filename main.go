@@ -41,11 +41,11 @@ func main() {
 	// 1. ORA APRIAMO IL BROWSER SULLA PORTA 3000
 	go func() {
 		time.Sleep(1 * time.Second)
-		openBrowser("http://localhost:3000")
+		openBrowser("http://localhost:3090")
 	}()
 
-	// 2. ACCENDIAMO IL SERVER SULLA PORTA 3000
-	err = http.ListenAndServe(":3000", nil)
+	// 2. ACCENDIAMO IL SERVER SULLA PORTA 3090
+	err = http.ListenAndServe(":3090", nil)
 	if err != nil {
 		log.Fatal("Errore del server:", err)
 	}
