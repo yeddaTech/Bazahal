@@ -54,8 +54,8 @@
             color: rgba(255, 255, 255, 0.4);
             font-weight: 400;
         }
-        /* =========================================
-           🍿 CAROSELLO STILE NETFLIX
+ /* =========================================
+           🍿 VERO CAROSELLO STILE NETFLIX (Swipe)
            ========================================= */
         .netflix-section {
             margin: 10px 0 60px 0;
@@ -76,47 +76,47 @@
         }
 
         .netflix-carousel {
-            display: flex;
             width: 100%;
-            overflow: hidden;
-            /* Sfumatura ai bordi per far apparire le card morbidamente */
-            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-            -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-            padding: 20px 0; /* Spazio per far ingrandire le card senza tagliarle */
+            /* Abilita lo scorrimento orizzontale col dito/mouse */
+            overflow-x: auto;
+            /* Nasconde la brutta barra di scorrimento su PC e Mobile */
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+            padding: 20px 5%;
+            /* Aggancio magnetico delle card stile iOS */
+            scroll-snap-type: x mandatory; 
+        }
+        
+        .netflix-carousel::-webkit-scrollbar {
+            display: none; /* Nasconde la barra su Chrome/Safari */
         }
 
         .netflix-track {
-            display: flex;
-            gap: 25px;
-            /* Scorrimento LENTISSIMO e rilassante */
-            animation: netflixScroll 60s linear infinite;
+            display: inline-flex;
+            gap: 20px;
+            /* Nessuna animazione automatica, l'utente scorre liberamente! */
         }
 
-        .netflix-track:hover {
-            animation-play-state: paused; /* Si ferma se ci metti il mouse sopra */
-        }
-
-        /* Le Card del Carosello */
         .netflix-card {
-            flex: 0 0 260px; /* Larghezza fissa delle card */
+            flex: 0 0 260px;
             background: var(--card-bg-grid);
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             text-decoration: none;
             color: var(--text-main);
             display: flex;
             flex-direction: column;
             border: 1px solid rgba(14, 166, 114, 0.1);
+            /* Punto di aggancio magnetico */
+            scroll-snap-align: start; 
         }
 
-        /* Effetto "Pop" di Netflix all'hover */
         .netflix-card:hover {
-            transform: scale(1.08); 
+            transform: translateY(-5px); /* Si alza verso l'alto invece di espandersi */
             border-color: var(--gold-accent);
-            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.3);
-            z-index: 10;
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.2);
         }
 
         .netflix-card img {
@@ -132,7 +132,6 @@
         .netflix-card-info h4 {
             margin: 0 0 10px 0;
             font-size: 1.05rem;
-            /* Taglia i titoli troppo lunghi con i puntini di sospensione */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -148,12 +147,6 @@
             border-radius: 20px;
             display: inline-block;
         }
-
-        @keyframes netflixScroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
     </style>
 </head>
 <body style="margin: 0; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; background-color: var(--bg-color);">
@@ -207,16 +200,6 @@
         <div class="netflix-carousel">
             <div class="netflix-track">
                 
-                {{range .}}
-                <a href="{{.AffiliateLink}}" target="_blank" class="netflix-card">
-                    <img src="{{.ImageURL}}" alt="{{.Name}}">
-                    <div class="netflix-card-info">
-                        <h4>{{.Name}}</h4>
-                        <span class="netflix-badge">Novità</span>
-                    </div>
-                </a>
-                {{end}}
-
                 {{range .}}
                 <a href="{{.AffiliateLink}}" target="_blank" class="netflix-card">
                     <img src="{{.ImageURL}}" alt="{{.Name}}">
