@@ -147,6 +147,49 @@
             border-radius: 20px;
             display: inline-block;
         }
+        /* =========================================
+           🏹 FRECCE CAROSELLO
+           ========================================= */
+        .carousel-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            z-index: 10;
+            background: rgba(20, 33, 24, 0.6); /* Vetro scuro semitrasparente */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .carousel-btn:hover {
+            background: var(--gold-accent); /* Diventa oro all'hover */
+            color: #142118;
+            transform: scale(1.1);
+            border-color: var(--gold-accent);
+        }
+
+        .left-btn { left: 2%; }
+        .right-btn { right: 2%; }
+        
+        /* Nasconde le frecce sui telefoni (dove si usa il dito) */
+        @media (max-width: 768px) {
+            .carousel-btn { display: none; }
+        }
     </style>
 </head>
 <body style="margin: 0; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; background-color: var(--bg-color);">
@@ -197,20 +240,26 @@
     <section class="netflix-section">
         <h2 class="netflix-title">Novità <span>in Evidenza</span></h2>
         
-        <div class="netflix-carousel">
-            <div class="netflix-track">
-                
-                {{range .}}
-                <a href="{{.AffiliateLink}}" target="_blank" class="netflix-card">
-                    <img src="{{.ImageURL}}" alt="{{.Name}}">
-                    <div class="netflix-card-info">
-                        <h4>{{.Name}}</h4>
-                        <span class="netflix-badge">Novità</span>
-                    </div>
-                </a>
-                {{end}}
-                
+        <div class="carousel-wrapper">
+            <button class="carousel-btn left-btn" onclick="scrollCarousel(-1)">&#10094;</button>
+            
+            <div class="netflix-carousel" id="netflixCarousel" style="scroll-behavior: smooth;">
+                <div class="netflix-track">
+                    
+                    {{range .}}
+                    <a href="{{.AffiliateLink}}" target="_blank" class="netflix-card">
+                        <img src="{{.ImageURL}}" alt="{{.Name}}">
+                        <div class="netflix-card-info">
+                            <h4>{{.Name}}</h4>
+                            <span class="netflix-badge">Novità</span>
+                        </div>
+                    </a>
+                    {{end}}
+                    
+                </div>
             </div>
+
+            <button class="carousel-btn right-btn" onclick="scrollCarousel(1)">&#10095;</button>
         </div>
     </section>
     <main class="product-grid" style="flex-grow: 1;">
@@ -307,6 +356,16 @@
                 });
             }
         });
+        
+    </script>
+    <script>
+        // Funzione per scorrere il carosello con le frecce
+        function scrollCarousel(direction) {
+            const carousel = document.getElementById('netflixCarousel');
+            // Scorrerà di 300 pixel alla volta (circa una card + spazio)
+            const scrollAmount = 300; 
+            carousel.scrollBy({ left: scrollAmount * direction, behavior: 'smooth' });
+        }
     </script>
 
 </body>
