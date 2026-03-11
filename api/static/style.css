@@ -691,3 +691,79 @@ body {
     /* (Lascia le regole che ci sono già e aggiungi questa:) */
     min-height: 60vh; 
 }
+/* =========================================
+           🎬 TICKER SCORREVOLE (Stile Novità)
+           ========================================= */
+        .scrolling-ticker {
+            width: 100%;
+            overflow: hidden; /* Nasconde ciò che esce dai bordi */
+            background-color: var(--card-bg);
+            border-top: 1px solid rgba(14, 166, 114, 0.1);
+            border-bottom: 1px solid rgba(14, 166, 114, 0.1);
+            padding: 15px 0;
+            margin-bottom: 50px;
+            white-space: nowrap; /* Mantiene tutto su una riga */
+            display: flex;
+            align-items: center;
+        }
+
+        .ticker-track {
+            display: inline-flex;
+            gap: 40px;
+            /* L'animazione muove la traccia verso sinistra in infinito */
+            animation: scrollTicker 30s linear infinite;
+        }
+
+        /* Se l'utente passa col mouse, lo scorrimento si mette in pausa per fargli leggere */
+        .scrolling-ticker:hover .ticker-track {
+            animation-play-state: paused;
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: var(--text-main);
+            background: var(--bg-color);
+            padding: 8px 20px 8px 8px;
+            border-radius: 50px;
+            transition: transform 0.2s;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .ticker-item:hover {
+            transform: scale(1.05);
+            border-color: var(--gold-accent);
+        }
+
+        .ticker-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%; /* Immagine a pallino */
+            object-fit: cover;
+        }
+
+        .ticker-item span {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .ticker-label {
+            background: var(--emerald-green);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        /* L'animazione chiave: sposta da 0 a metà della larghezza (poi il contenuto si ripete) */
+        @keyframes scrollTicker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }

@@ -101,7 +101,25 @@
     <div class="search-container">
         <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Cerca datteri, profumi, carne...">
     </div>
+    <div class="scrolling-ticker">
+        <div class="ticker-track">
+            {{range .}}
+            <a href="{{.AffiliateLink}}" target="_blank" class="ticker-item">
+                <img src="{{.ImageURL}}" alt="prodotto">
+                <span>{{.Name}}</span>
+                <span class="ticker-label">In Evidenza</span>
+            </a>
+            {{end}}
 
+            {{range .}}
+            <a href="{{.AffiliateLink}}" target="_blank" class="ticker-item">
+                <img src="{{.ImageURL}}" alt="prodotto">
+                <span>{{.Name}}</span>
+                <span class="ticker-label">In Evidenza</span>
+            </a>
+            {{end}}
+        </div>
+    </div>
     <main class="product-grid" style="flex-grow: 1;">
         {{range .}}
         <div class="product-card">
