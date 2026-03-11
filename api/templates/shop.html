@@ -15,7 +15,46 @@
     <script defer src="/_vercel/insights/script.js"></script>
     
     <style>
-/* =========================================
+        .shop-header {
+            text-align: center;
+            padding: 80px 20px 20px;
+        }
+        
+        /* Contenitore allargato a 900px */
+        .search-container {
+            text-align: center;
+            margin: 30px auto 70px auto; /* Più respiro sotto */
+            max-width: 900px; /* 🔥 MOLTO PIÙ LARGA (Prima era 600) */
+            width: 90%; /* Si adatta perfettamente ai telefoni in automatico */
+            padding: 0;
+        }
+
+        /* Barra stile Silicon Valley */
+        .search-bar {
+            width: 100%;
+            padding: 22px 35px; /* 🔥 PIÙ ALTA E SPAZIOSA */
+            font-size: 1.3rem; /* Testo più grande e leggibile */
+            border-radius: 60px; /* Bordi ancora più morbidi */
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            background-color: #0b120d;
+            color: white;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15); /* Ombra premium larga */
+            box-sizing: border-box;
+        }
+
+        .search-bar:focus {
+            border-color: #d4af37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25);
+            transform: translateY(-3px); /* 🪄 MAGIA: Si solleva leggermente verso di te quando ci clicchi */
+        }
+
+        .search-bar::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 400;
+        }
+        /* =========================================
            🍿 CAROSELLO STILE NETFLIX
            ========================================= */
         .netflix-section {
@@ -114,7 +153,8 @@
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
-        </style>
+
+    </style>
 </head>
 <body style="margin: 0; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; background-color: var(--bg-color);">
 
