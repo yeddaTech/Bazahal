@@ -9,105 +9,55 @@
     <meta property="og:url" content="https://bazahal.vercel.app/">
     <meta property="og:type" content="website">
     <title>Shop | Bazahal</title>
+    
     <link rel="icon" type="image/png" href="/static/favicon.png">
     <link rel="stylesheet" href="/static/style.css">
     <script defer src="/_vercel/insights/script.js"></script>
+    
     <style>
-        /* Navbar coordinata stile Apple */
-        .navbar {
-            position: sticky;
-            top: 0;
-            background: rgba(20, 33, 24, 0.9); 
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            padding: 0 5%;
-            height: 70px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(14, 166, 114, 0.2);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-decoration: none;
-            color: var(--gold-accent);
-        }
-
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-
-        .nav-link {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
-
-        .nav-link:hover {
-            color: var(--gold-accent);
-        }
-
-        /* Il tasto Login è l'unico con la cornice colorata */
-        .nav-cta {
-            background-color: var(--gold-accent);
-            color: #142118 !important;
-            padding: 8px 22px;
-            border-radius: 50px;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
-        }
-
-        .nav-cta:hover {
-            transform: scale(1.05);
-            background-color: white;
-        }
-        
-        /* Titolo Shop coordinato */
         .shop-header {
             text-align: center;
-            padding: 80px 20px 40px;
+            padding: 80px 20px 20px;
         }
-        /* =========================================
-    🔍 BARRA DI RICERCA SHOP
-    ========================================= */
-    .search-container {
-        text-align: center;
-        margin: 30px auto 40px auto;
-        max-width: 600px;
-        padding: 0 20px;
-    }
+        
+        /* Contenitore allargato a 900px */
+        .search-container {
+            text-align: center;
+            margin: 30px auto 70px auto; /* Più respiro sotto */
+            max-width: 900px; /* 🔥 MOLTO PIÙ LARGA (Prima era 600) */
+            width: 90%; /* Si adatta perfettamente ai telefoni in automatico */
+            padding: 0;
+        }
 
-    .search-bar {
-        width: 100%;
-        padding: 16px 25px;
-        font-size: 1.1rem;
-        border-radius: 50px;
-        border: 2px solid rgba(212, 175, 55, 0.3); /* Bordo dorato leggero */
-        background-color: #0b120d; /* Il tuo verde scuro */
-        color: white;
-        outline: none;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
+        /* Barra stile Silicon Valley */
+        .search-bar {
+            width: 100%;
+            padding: 22px 35px; /* 🔥 PIÙ ALTA E SPAZIOSA */
+            font-size: 1.3rem; /* Testo più grande e leggibile */
+            border-radius: 60px; /* Bordi ancora più morbidi */
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            background-color: #0b120d;
+            color: white;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15); /* Ombra premium larga */
+            box-sizing: border-box;
+        }
 
-    .search-bar:focus {
-        border-color: #d4af37; /* Diventa oro acceso quando ci clicchi */
-        box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-    }
+        .search-bar:focus {
+            border-color: #d4af37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25);
+            transform: translateY(-3px); /* 🪄 MAGIA: Si solleva leggermente verso di te quando ci clicchi */
+        }
 
-    .search-bar::placeholder {
-        color: rgba(255, 255, 255, 0.5);
-    }
+        .search-bar::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 400;
+        }
     </style>
 </head>
-<body>
+<body style="margin: 0; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; background-color: var(--bg-color);">
+
     <nav class="navbar">
         <a href="/" class="logo">Bazahal<span>.</span></a>
         
@@ -120,13 +70,31 @@
         <div class="nav-links" id="nav-links">
             <a href="/orari" class="nav-link">Orari</a>
             <a href="/macelleriehalal" class="nav-link">Mappa</a>
-            <a href="/shop" class="nav-link">Shop</a>
+            
+            <div class="nav-dropdown">
+                <a href="/shop" class="nav-link">Shop</a>
+                
+                <div class="mega-menu">
+                    <div class="mega-column">
+                        <h4>Scopri lo Shop</h4>
+                        <a href="/shop">Tutti i prodotti</a>
+                        <a href="/shop">Datteri & Cibo</a>
+                        <a href="/shop">Cura del corpo</a>
+                    </div>
+                    <div class="mega-column">
+                        <h4>In Evidenza</h4>
+                        <a href="/shop" class="small-link">Offerte Ramadan</a>
+                        <a href="/shop" class="small-link">Idee Regalo</a>
+                        <a href="/shop" class="small-link">Bestseller</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
     <header class="shop-header">
         <div class="bismillah" style="color: var(--gold-accent); margin-bottom: 10px;">بسم الله الرحمن الرحيم</div>
-        <h2 style="font-size: 3rem; color: var(--text-main); margin: 0; letter-spacing: -1.5px;">Il Nostro <span>Catalogo</span></h2>
+        <h2 style="font-size: 3rem; color: var(--text-main); margin: 0; letter-spacing: -1.5px;">Il Nostro <span style="color: var(--gold-accent);">Catalogo</span></h2>
         <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 10px;">Qualità superiore, scelta con cura per la tua tavola.</p>
     </header>
 
@@ -134,7 +102,7 @@
         <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Cerca datteri, profumi, carne...">
     </div>
 
-    <main class="product-grid">
+    <main class="product-grid" style="flex-grow: 1;">
         {{range .}}
         <div class="product-card">
             <img src="{{.ImageURL}}" alt="{{.Name}}">
@@ -148,28 +116,25 @@
         </div>
         {{end}}
     </main>
+
     <footer class="footer">
         <div class="footer-content">
-            
             <div class="footer-brand">
                 <h2>Bazahal<span>.</span></h2>
                 <p>L'eccellenza Halal a portata di click. Selezioniamo i migliori prodotti per te con cura e dedizione.</p>
             </div>
-            
             <div class="footer-links">
                 <h3>Link Utili</h3>
                 <a href="/shop">Shop Affiliazioni</a>
                 <a href="/orari">Orari Preghiera</a>
                 <a href="/macelleriehalal">Macellerie Halal</a>
             </div>
-            
             <div class="footer-social">
                 <h3>Seguici</h3>
                 <a href="#">Instagram</a>
                 <a href="#">TikTok</a>
                 <a href="mailto:info@bazahal.com">Contattaci</a>
             </div>
-            
         </div>
         
         <div class="footer-bottom">
@@ -179,80 +144,59 @@
             </p>
         </div>
     </footer>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            // 1. Script Hamburger Mobile
             const hamburger = document.getElementById("hamburger");
             const navLinks = document.getElementById("nav-links");
 
             if (hamburger && navLinks) {
                 hamburger.addEventListener("click", () => {
-                    // Mette e toglie la classe "active" per far partire l'animazione CSS
                     hamburger.classList.toggle("active");
                     navLinks.classList.toggle("active");
                 });
             }
-        });
-    </script>
-    <div id="cookie-banner" class="cookie-banner">
-        <p>
-            Utilizziamo cookie tecnici e analitici per garantirti la migliore esperienza sul nostro sito e comprendere come viene utilizzato. 
-            Continuando a navigare, accetti la nostra policy.
-        </p>
-        <button id="accept-cookies" class="cookie-btn">Accetto</button>
-    </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
+            // 2. Script Cookie Banner
             const cookieBanner = document.getElementById("cookie-banner");
             const acceptBtn = document.getElementById("accept-cookies");
 
-            // Controlla nella memoria del telefono se ha già accettato in passato
             if (!localStorage.getItem("bazahal_cookie_accepted")) {
-                // Aspetta mezzo secondo per far caricare la pagina, poi fa salire il banner
                 setTimeout(() => {
-                    cookieBanner.classList.add("show");
+                    if(cookieBanner) cookieBanner.classList.add("show");
                 }, 500);
             }
 
-            // Quando l'utente clicca il bottone "Accetto"
             if (acceptBtn) {
                 acceptBtn.addEventListener("click", () => {
-                    // Salva un appunto nella memoria del telefono: "Questo tizio ha accettato"
                     localStorage.setItem("bazahal_cookie_accepted", "true");
-                    // Nasconde il banner facendolo scivolare giù
                     cookieBanner.classList.remove("show");
                 });
             }
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
+
+            // 3. Script Ricerca Live (Live Search)
             const searchInput = document.getElementById("searchInput");
-            
-            // Assicurati che la classe '.product-card' sia quella giusta che usi per i tuoi prodotti!
-            // Se li hai chiamati diversamente (es. '.card' o '.prodotto'), cambialo qui sotto.
             const products = document.querySelectorAll(".product-card");
 
             if(searchInput) {
                 searchInput.addEventListener("keyup", function() {
-                    // Prende quello che scrivi e lo fa tutto minuscolo
                     let searchQuery = this.value.toLowerCase();
 
                     products.forEach(function(product) {
-                        // Cerca il titolo (h3) e la descrizione (p) dentro la card
                         let productName = product.querySelector("h3") ? product.querySelector("h3").innerText.toLowerCase() : "";
                         let productDesc = product.querySelector("p") ? product.querySelector("p").innerText.toLowerCase() : "";
 
-                        // Se la parola cercata è nel titolo o nella descrizione, lo mostra, altrimenti lo nasconde
                         if (productName.includes(searchQuery) || productDesc.includes(searchQuery)) {
-                            product.style.display = ""; // Usa il display di default (flex o block)
+                            product.style.display = ""; 
                         } else {
-                            product.style.display = "none"; // Nasconde il prodotto
+                            product.style.display = "none"; 
                         }
                     });
                 });
             }
         });
     </script>
+
 </body>
 </html>

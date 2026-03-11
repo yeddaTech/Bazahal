@@ -9,77 +9,12 @@
     <meta property="og:url" content="https://bazahal.vercel.app/">
     <meta property="og:type" content="website">
     <title>Orari Preghiera | Bazahal</title>
+    
     <link rel="icon" type="image/png" href="/static/favicon.png">
     <link rel="stylesheet" href="/static/style.css">
     <script defer src="/_vercel/insights/script.js"></script>
-    <style>
-        /* --- FIX NAVBAR STILE APPLE --- */
-        .navbar {
-            position: sticky;
-            top: 0;
-            background: rgba(20, 33, 24, 0.9); 
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            padding: 0 5%;
-            height: 70px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(14, 166, 114, 0.2);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-decoration: none;
-            color: var(--gold-accent);
-        }
-
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 25px; /* Spazio tra i link */
-        }
-
-        .nav-link {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
-
-        .nav-link:hover {
-            color: var(--gold-accent);
-        }
-
-        /* TASTO LOGIN CON CORNICE COLORATA (CTA) */
-        .nav-cta {
-            background-color: var(--gold-accent);
-            color: #142118 !important; /* Testo scuro per leggibilità */
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
-        }
-
-        .nav-cta:hover {
-            transform: scale(1.05);
-            background-color: white;
-        }
-
-        /* Mobile Fix */
-        @media (max-width: 768px) {
-            .nav-menu { gap: 15px; }
-            .nav-link { font-size: 0.8rem; }
-            .nav-cta { padding: 6px 12px; }
-        }
-    </style>
 </head>
-<body style="background-image: url('https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?q=80&w=1470&auto=format&fit=crop'); background-size: cover; background-position: center; background-attachment: fixed; margin: 0; min-height: 100vh; display: flex; flex-direction: column;">
-    
-    <nav class="navbar">
+<body style="background-image: linear-gradient(rgba(20, 33, 24, 0.95), rgba(20, 33, 24, 0.95)), url('https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?q=80&w=1470&auto=format&fit=crop'); background-size: cover; background-position: center; background-attachment: fixed; margin: 0; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden;">    <nav class="navbar">
         <a href="/" class="logo">Bazahal<span>.</span></a>
         
         <div class="hamburger" id="hamburger">
@@ -91,13 +26,30 @@
         <div class="nav-links" id="nav-links">
             <a href="/orari" class="nav-link">Orari</a>
             <a href="/macelleriehalal" class="nav-link">Mappa</a>
-            <a href="/shop" class="nav-link">Shop</a>
+            
+            <div class="nav-dropdown">
+                <a href="/shop" class="nav-link">Shop</a>
+                
+                <div class="mega-menu">
+                    <div class="mega-column">
+                        <h4>Scopri lo Shop</h4>
+                        <a href="/shop">Tutti i prodotti</a>
+                        <a href="/shop">Datteri & Cibo</a>
+                        <a href="/shop">Cura del corpo</a>
+                    </div>
+                    <div class="mega-column">
+                        <h4>In Evidenza</h4>
+                        <a href="/shop" class="small-link">Offerte Ramadan</a>
+                        <a href="/shop" class="small-link">Idee Regalo</a>
+                        <a href="/shop" class="small-link">Bestseller</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <div style="flex-grow: 1; background: rgba(20, 33, 24, 0.85); padding: 80px 20px; display: flex; align-items: center; justify-content: center;">
-        
-        <div class="prayer-container" style="width: 100%; max-width: 1000px; flex-direction: column; text-align: center; padding: 50px 40px; background: transparent; box-shadow: none;">
+<div style="flex-grow: 1; padding: 80px 20px; display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 70px);">        
+        <div class="prayer-container" style="width: 100%; max-width: 1000px; text-align: center; padding: 50px 40px; background: transparent;">
             
             <div class="prayer-header" style="margin-bottom: 50px;">
                 <div class="bismillah" style="margin-bottom: 15px; font-size: 1.8rem; color: var(--gold-accent);">بسم الله الرحمن الرحيم</div>
@@ -112,28 +64,25 @@
         </div>
 
     </div>
+
     <footer class="footer">
         <div class="footer-content">
-            
             <div class="footer-brand">
                 <h2>Bazahal<span>.</span></h2>
                 <p>L'eccellenza Halal a portata di click. Selezioniamo i migliori prodotti per te con cura e dedizione.</p>
             </div>
-            
             <div class="footer-links">
                 <h3>Link Utili</h3>
                 <a href="/shop">Shop Affiliazioni</a>
                 <a href="/orari">Orari Preghiera</a>
                 <a href="/macelleriehalal">Macellerie Halal</a>
             </div>
-            
             <div class="footer-social">
                 <h3>Seguici</h3>
                 <a href="#">Instagram</a>
                 <a href="#">TikTok</a>
                 <a href="mailto:info@bazahal.com">Contattaci</a>
             </div>
-            
         </div>
         
         <div class="footer-bottom">
@@ -206,49 +155,16 @@
                 );
             }
         });
-    </script>
-    <script>
+
+        // Script Hamburger
         document.addEventListener("DOMContentLoaded", () => {
             const hamburger = document.getElementById("hamburger");
             const navLinks = document.getElementById("nav-links");
 
             if (hamburger && navLinks) {
                 hamburger.addEventListener("click", () => {
-                    // Mette e toglie la classe "active" per far partire l'animazione CSS
                     hamburger.classList.toggle("active");
                     navLinks.classList.toggle("active");
-                });
-            }
-        });
-    </script>
-    <div id="cookie-banner" class="cookie-banner">
-        <p>
-            Utilizziamo cookie tecnici e analitici per garantirti la migliore esperienza sul nostro sito e comprendere come viene utilizzato. 
-            Continuando a navigare, accetti la nostra policy.
-        </p>
-        <button id="accept-cookies" class="cookie-btn">Accetto</button>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const cookieBanner = document.getElementById("cookie-banner");
-            const acceptBtn = document.getElementById("accept-cookies");
-
-            // Controlla nella memoria del telefono se ha già accettato in passato
-            if (!localStorage.getItem("bazahal_cookie_accepted")) {
-                // Aspetta mezzo secondo per far caricare la pagina, poi fa salire il banner
-                setTimeout(() => {
-                    cookieBanner.classList.add("show");
-                }, 500);
-            }
-
-            // Quando l'utente clicca il bottone "Accetto"
-            if (acceptBtn) {
-                acceptBtn.addEventListener("click", () => {
-                    // Salva un appunto nella memoria del telefono: "Questo tizio ha accettato"
-                    localStorage.setItem("bazahal_cookie_accepted", "true");
-                    // Nasconde il banner facendolo scivolare giù
-                    cookieBanner.classList.remove("show");
                 });
             }
         });

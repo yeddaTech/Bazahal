@@ -1,11 +1,11 @@
 :root {
-    --bg-color: #F4F6F5; /* Un grigio-verde chiarissimo e caldo, coordinato e sacco */
-    --text-main: #142118; /* Nero con una punta di verde foresta, percoordinarsi */
+    --bg-color: #F4F6F5; /* Grigio-verde chiarissimo */
+    --text-main: #142118; /* Nero con una punta di verde foresta */
     --text-muted: #7A8C81;
-    --emerald-green: #0EA672; /* Il verde profondo stile Muslim Pro */
+    --emerald-green: #0EA672; /* Verde profondo stile Muslim Pro */
     --gold-accent: #C5A059; /* Oro premium */
     --card-bg: #ffffff;
-    --card-bg-grid: #ffffff; /* Carta bianca pulita contro lo sfondo grigio-verde */
+    --card-bg-grid: #ffffff; 
 }
 
 body {
@@ -16,24 +16,22 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Barra di navigazione effetto vetro profondo coordinata */
-/* Barra di navigazione stile Apple / Glassmorphism */
-/* =========================================
-   🍏 NAVBAR STILE APPLE (SISTEMATA)
-   ========================================= */
 .navbar {
     position: sticky;
     top: 0;
-    background: rgba(20, 33, 24, 0.85); /* Verde foresta scuro trasparente */
+    width: 100%;
+    height: 70px;
+    /* PRIMA ERA 0.85, ORA LO METTIAMO A 0.98 */
+    background: rgba(20, 33, 24, 0.98); 
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     padding: 0 5%;
-    height: 70px; /* Leggermente più alta per dare respiro */
     display: flex;
-    justify-content: space-between; /* Logo a sinistra, Menu a destra */
+    justify-content: space-between;
     align-items: center;
     z-index: 1000;
-    border-bottom: 1px solid rgba(14, 166, 114, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-sizing: border-box;
 }
 
 .logo {
@@ -43,66 +41,69 @@ body {
     text-decoration: none;
     color: var(--gold-accent);
     flex-shrink: 0;
+    z-index: 1001; /* Lo tiene sopra al menu a tendina */
 }
 
 .logo span {
     color: var(--emerald-green);
 }
 
-/* Contenitore Menu */
-.nav-menu {
+/* Link Centrati (Senza usare transform che rompe il mega menu) */
+.nav-links {
     display: flex;
+    gap: 40px;
     align-items: center;
-    gap: 30px; /* Distanza tra i link */
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: fit-content; /* Questa è la magia che centra senza imprigionare! */
 }
 
-/* Link normali */
 .nav-link {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.85); /* Bianco leggermente trasparente */
     text-decoration: none;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     transition: all 0.3s ease;
 }
 
 .nav-link:hover {
-    color: white;
+    color: #ffffff;
 }
 
-/* 💎 TASTO LOGIN (L'unico colorato che salta all'occhio) */
-.nav-cta {
-    background-color: var(--gold-accent);
-    color: var(--text-main) !important; /* Testo scuro per contrasto con l'oro */
-    padding: 8px 22px;
-    border-radius: 50px; /* Arrotondato stile Apple Button */
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(197, 160, 89, 0.2);
+/* Bottone invisibile sui PC */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 1001; /* Deve stare sempre sopra al menu a tendina */
 }
 
-.nav-cta:hover {
-    transform: scale(1.05) translateY(-1px);
-    background-color: #d4ae6a; /* Oro leggermente più chiaro */
-    box-shadow: 0 6px 20px rgba(197, 160, 89, 0.3);
+.hamburger span {
+    width: 25px;
+    height: 2px;
+    background-color: white; /* Lineette bianche */
+    border-radius: 3px;
+    transition: all 0.3s ease;
 }
 
-/* Intestazione (Hero) atmosferica coordinata */
+/* =========================================
+   🌅 HERO SECTION (Intestazione)
+   ========================================= */
 .hero {
     position: relative;
     text-align: center;
     padding: 180px 20px 140px;
-    background-color: var(--text-main); /* Fallback */
+    background-color: var(--text-main);
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Effetto parallasse premium */
-    color: white; /* Testo chiaro su fondo scuro */
+    background-attachment: fixed;
+    color: white;
     overflow: hidden;
 }
 
-/* Overlay scuro per far risaltare il testo e percoordinarsi con Muslim Pro */
 .hero::before {
     content: '';
     position: absolute;
@@ -110,11 +111,10 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(20, 33, 24, 0.75); /* Overlay verde foresta scuro */
+    background-color: rgba(20, 33, 24, 0.75); /* Overlay scuro */
     z-index: 1;
 }
 
-/* Contenuto dell'hero (z-index alto) */
 .hero-content {
     position: relative;
     z-index: 2;
@@ -122,11 +122,10 @@ body {
     margin: 0 auto;
 }
 
-/* Bismillah stilizzato in alto coordinato con Muslim Pro */
 .bismillah {
     font-family: serif;
     font-size: 1.6rem;
-    color: var(--gold-accent); /* Oro coordinato */
+    color: var(--gold-accent);
     margin-bottom: 30px;
     opacity: 0.9;
 }
@@ -137,11 +136,11 @@ body {
     letter-spacing: -2.5px;
     line-height: 1.05;
     margin: 0 0 25px 0;
-    color: white; /* Titolo principale bianco */
+    color: white;
 }
 
 .hero h1 span {
-    color: var(--gold-accent); /* "Selezionata per te" in oro */
+    color: var(--gold-accent);
 }
 
 .hero p {
@@ -316,15 +315,6 @@ body {
     margin: 0;
 }
 
-/* =========================================
-   🍔 MENU HAMBURGER (Stile Apple)
-   ========================================= */
-.nav-links {
-    display: flex;
-    gap: 25px;
-    align-items: center;
-}
-
 /* Bottone invisibile sui PC */
 .hamburger {
     display: none;
@@ -342,42 +332,52 @@ body {
 }
 
 
-/* 📱 QUANDO LO SCHERMO DIVENTA PICCOLO (TELEFONI) */
+/* =========================================
+   📱 MENU TELEFONO (Sipario Stile iOS)
+   ========================================= */
 @media (max-width: 768px) {
     .hamburger {
-        display: flex; /* Mostra le tre lineette */
+        display: flex;
     }
 
     .nav-links {
+        display: flex; /* Dobbiamo rimettere flex qui */
         position: absolute;
         top: 70px;
-        right: 5%;
-        background: rgba(20, 33, 24, 0.95); /* Sfondo scuro elegante */
-        backdrop-filter: blur(10px); /* Effetto vetro Apple */
-        -webkit-backdrop-filter: blur(10px);
-        flex-direction: column;
-        width: 200px;
-        padding: 25px 20px;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        border: 1px solid rgba(255,255,255,0.05);
+        left: 0;
+        width: 100%;
+        background: rgba(20, 33, 24, 0.98);
+        backdrop-filter: saturate(180%) blur(25px);
+        -webkit-backdrop-filter: saturate(180%) blur(25px);
+        flex-direction: column; /* FORZIAMO I LINK A METTERSI IN COLONNA */
+        padding: 30px 20px 40px;
+        gap: 25px; /* Meno spazio tra i link per farli stare tutti */
+        border-radius: 0 0 25px 25px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        box-sizing: border-box; /* Essenziale per non far sbordare il menu lateralmente */
         
-        /* Nascosto e spostato in alto di default */
         opacity: 0;
         visibility: hidden;
-        transform: translateY(-15px);
-        transition: all 0.3s ease;
-        z-index: 998;
+        transform: translateY(-100%);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        z-index: -1;
     }
 
-    /* La classe "active" viene aggiunta dal JavaScript quando tocchi il bottone */
     .nav-links.active {
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
     }
 
-    /* Animazione magica: Le 3 lineette si trasformano in una "X" */
+    .nav-link {
+        font-size: 1.3rem; /* Link più grandi su mobile, stile Apple */
+        font-weight: 600;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Animazione Hamburger che diventa una X */
     .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .hamburger.active span:nth-child(2) { opacity: 0; }
     .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
@@ -386,10 +386,10 @@ body {
    🏛️ FOOTER PREMIUM
    ========================================= */
 .footer {
-    background-color: #0b120d; /* Verde scurissimo, quasi nero profondo */
+    background-color: #0b120d;
     color: #ffffff;
     padding: 60px 20px 20px;
-    margin-top: auto; /* Spinge automaticamente il footer alla fine della pagina */
+    margin-top: auto; /* ← QUESTO È QUELLO CHE LO INCOLLA IN BASSO */
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -535,4 +535,159 @@ body {
     .cookie-btn {
         width: 100%;
     }
+}
+/* =========================================
+   🪄 MEGA MENU A TENDINA (La Magia Apple Definitiva)
+   ========================================= */
+.nav-dropdown {
+    padding: 24px 0; 
+    cursor: pointer;
+}
+
+.mega-menu {
+    position: fixed;
+    top: 70px; 
+    left: 0;
+    width: 100vw; 
+    
+    /* STESSO IDENTICO COLORE DELLA NAVBAR: 0.98 */
+    background: rgba(20, 33, 24, 0.98); 
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    
+    margin-top: -1px; 
+    border-top: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    
+    padding: 50px 0 60px 0; 
+    display: flex;
+    justify-content: center;
+    gap: 150px; 
+    
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+    z-index: 999;
+}
+
+/* 2. IL TELO SFUOCATO (APPLE BLUR OVERLAY) */
+/* Generiamo un telo magico che parte dalla fine del menu e copre tutto il sito */
+.mega-menu::before {
+    content: '';
+    position: absolute;
+    top: 100%; /* Parte esattamente da dove finisce la tendina */
+    left: 0;
+    width: 100vw;
+    height: 100vh; /* Alto quanto tutto lo schermo */
+    background: rgba(0, 0, 0, 0.5); /* Scurisce l'immagine sotto */
+    backdrop-filter: blur(12px); /* Sfuoca il sito in stile iOS */
+    -webkit-backdrop-filter: blur(12px);
+    cursor: default; /* Il mouse torna normale sul telo */
+}
+
+.nav-dropdown:hover .mega-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.mega-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; 
+    min-width: 200px; 
+    position: relative;
+    z-index: 2; /* Assicura che i testi stiano sopra il telo sfuocato */
+}
+
+.mega-column h4 {
+    color: rgba(255, 255, 255, 0.4); 
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 10px 0;
+}
+
+.mega-column a {
+    color: rgba(255, 255, 255, 0.95); 
+    text-decoration: none;
+    font-size: 1.8rem; 
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    transition: color 0.2s ease, transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.mega-column a.small-link {
+    font-size: 1.15rem; 
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.mega-column a:hover {
+    color: var(--gold-accent); 
+    transform: translateX(8px); 
+}
+
+/* NASCONDE SU TELEFONO */
+@media (max-width: 768px) {
+    .mega-menu { display: none !important; }
+}
+
+/* =========================================
+   📱 ADATTAMENTO GENERALE PER TELEFONI (Responsive)
+   ========================================= */
+@media (max-width: 768px) {
+    
+    /* 1. Hero Section (Testo più proporzionato) */
+    .hero {
+        padding: 140px 15px 100px; /* Meno spazio inutile sopra e sotto */
+    }
+    .hero h1 {
+        font-size: 3rem; /* Titolo più piccolo per non sbordare */
+        letter-spacing: -1px;
+    }
+    .hero p {
+        font-size: 1.1rem; /* Sottotitolo più leggibile */
+        padding: 0 10px;
+    }
+
+    /* 2. Sezione Info (Perché scegliere Halal) */
+    .info-section {
+        padding: 60px 15px; /* Meno padding laterale per dare spazio al testo */
+    }
+    .info-section h2 {
+        font-size: 2.2rem;
+    }
+    .info-subtitle {
+        font-size: 1rem;
+        margin-bottom: 40px;
+    }
+    
+    /* Griglia Vantaggi in colonna singola pulita */
+    .features-grid {
+        grid-template-columns: 1fr; /* Una sola colonna invece che affiancati */
+        gap: 25px;
+    }
+
+    /* 3. Griglia Prodotti dello Shop */
+    .product-grid {
+        grid-template-columns: 1fr; /* 1 prodotto per riga sul telefono (come Amazon) */
+        padding: 10px 15px;
+        gap: 20px;
+    }
+    .product-card img {
+        height: 200px; /* Immagini leggermente più basse per non occupare tutto lo schermo */
+    }
+
+    /* 4. Form di Upload */
+    .form-container {
+        margin: 40px 15px;
+        padding: 25px 15px;
+    }
+}
+.product-grid {
+    /* (Lascia le regole che ci sono già e aggiungi questa:) */
+    min-height: 60vh; 
 }
