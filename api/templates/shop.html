@@ -359,12 +359,21 @@
         
     </script>
     <script>
-        // Funzione per scorrere il carosello con le frecce
+        // Funzione Intelligente per scorrere il carosello
         function scrollCarousel(direction) {
             const carousel = document.getElementById('netflixCarousel');
-            // Scorrerà di 300 pixel alla volta (circa una card + spazio)
             const scrollAmount = 300; 
-            carousel.scrollBy({ left: scrollAmount * direction, behavior: 'smooth' });
+            
+            // Calcola dove stiamo cercando di andare
+            let targetScroll = carousel.scrollLeft + (scrollAmount * direction);
+            
+            // Limiti: Non andare sotto zero (sinistra) e non superare la fine (destra)
+            const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+            
+            if (targetScroll < 0) targetScroll = 0;
+            if (targetScroll > maxScroll) targetScroll = maxScroll;
+
+            carousel.scrollTo({ left: targetScroll, behavior: 'smooth' });
         }
     </script>
 
