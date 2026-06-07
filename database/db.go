@@ -35,9 +35,10 @@ func Connect() {
 	//     log.Fatal("ERRORE FATALE: Variabile DATABASE_URL mancante!")
 	// }
 
-	// 2. FORZIAMO LA STRINGA IN CHIARO (La prova del nove)
-	connStr := "postgresql://neondb_owner:npg_dgOT4nJLr7qQ@ep-falling-field-advwe5qk-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
-
+	connStr := os.Getenv("DATABASE_URL")
+	if connStr == "" {
+		log.Fatal("ERRORE FATALE: Variabile DATABASE_URL mancante!")
+	}
 	var dbErr error
 	DB, dbErr = sql.Open("postgres", connStr)
 	if dbErr != nil {
