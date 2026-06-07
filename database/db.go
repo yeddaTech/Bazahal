@@ -6,27 +6,22 @@ import (
 	"os"
 	"strings"
 
-	"github.com/joho/godotenv" // Il pacchetto per leggere il .env
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 var DB *sql.DB
 
-// bypass vercel cache
-// forza aggiornamento vercel
 func Connect() {
 	err := godotenv.Load()
 	if err != nil {
 		log.Println("Info: Nessun file .env trovato")
 	}
 
-	// --- SONDA DI DEBUG ---
+	// --- SONDA DI DEBUG (lasciamola per vedere se Vercel si sveglia) ---
 	log.Println("--- INIZIO CHECK VARIABILI VERCEL ---")
 	for _, env := range os.Environ() {
-		// Separiamo chiave e valore (stampiamo SOLO la chiave per non leakare la password)
 		chiave := strings.Split(env, "=")[0]
-
-		// Filtriamo per non intaccare troppo i log
 		if strings.Contains(chiave, "DATABASE") {
 			log.Printf("Trovata chiave simile a DATABASE: [%s]", chiave)
 		}
@@ -34,10 +29,14 @@ func Connect() {
 	log.Println("--- FINE CHECK ---")
 	// ----------------------
 
-	connStr := os.Getenv("DATABASE_URL")
-	if connStr == "" {
-		log.Fatal("ERRORE FATALE: Variabile DATABASE_URL mancante!")
-	}
+	// 1. COMMENTIAMO LA CHIAMATA A VERCEL
+	// connStr := os.Getenv("DATABASE_URL")
+	// if connStr == "" {
+	//     log.Fatal("ERRORE FATALE: Variabile DATABASE_URL mancante!")
+	// }
+
+	// 2. FORZIAMO LA STRINGA IN CHIARO (La prova del nove)
+	connStr := "postgresql://neondb_owner:npg_dgOT4nJLr7qQ@ep-falling-field-advwe5qk-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 
 	var dbErr error
 	DB, dbErr = sql.Open("postgres", connStr)
