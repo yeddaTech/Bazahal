@@ -35,9 +35,10 @@ func Connect() {
 	//     log.Fatal("ERRORE FATALE: Variabile DATABASE_URL mancante!")
 	// }
 
-	connStr := os.Getenv("DATABASE_URL")
+	connStr := os.Getenv("NEON_DB_URL") // <-- CAMBIA DA DATABASE_URL A NEON_DB_URL
+
 	if connStr == "" {
-		log.Fatal("ERRORE FATALE: Variabile DATABASE_URL mancante!")
+		log.Fatal("ERRORE FATALE: Variabile NEON_DB_URL mancante!")
 	}
 	var dbErr error
 	DB, dbErr = sql.Open("postgres", connStr)
