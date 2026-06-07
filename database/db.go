@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/joho/godotenv" // Il pacchetto per leggere il .env
 	_ "github.com/lib/pq"
@@ -13,18 +14,28 @@ var DB *sql.DB
 
 // forza aggiornamento vercel
 func Connect() {
-	// 1. Prova a caricare il file .env (questo funzionerà sul tuo PC locale)
 	err := godotenv.Load()
 	if err != nil {
-		log.Println("Info: Nessun file .env trovato, userò le variabili di sistema (tipico su Vercel)")
+		log.Println("Info: Nessun file .env trovato")
 	}
 
-	// 2. Legge la stringa magica dalla cassaforte (o da Vercel)
-	connStr := os.Getenv("DATABASE_URL")
+	// --- SONDA DI DEBUG ---
+	log.Println("--- INIZIO CHECK VARIABILI VERCEL ---")
+	for _, env := range os.Environ() {
+		// Separiamo chiave e valore (stampiamo SOLO la chiave per non leakare la password)
+		chiave := strings.Split(env, "=")[0]
 
-	// 3. Se la cassaforte è vuota, blocchiamo tutto prima di fare danni
+		// Filtriamo per non intaccare troppo i log
+		if strings.Contains(chiave, "DATABASE") {
+			log.Printf("Trovata chiave simile a DATABASE: [%s]", chiave)
+		}
+	}
+	log.Println("--- FINE CHECK ---")
+	// ----------------------
+
+	connStr := os.Getenv("DATABASE_URL")
 	if connStr == "" {
-		log.Fatal("ERRORE FATALE: Variabile DATABASE_URL mancante! Controlla il file .env o le impostazioni di Vercel.")
+		log.Fatal("ERRORE FATALE: Variabile DATABASE_URL mancante!")
 	}
 
 	var dbErr error
