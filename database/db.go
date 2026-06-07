@@ -11,6 +11,7 @@ import (
 
 var DB *sql.DB
 
+// forza aggiornamento vercel
 func Connect() {
 	// 1. Prova a caricare il file .env (questo funzionerà sul tuo PC locale)
 	err := godotenv.Load()
