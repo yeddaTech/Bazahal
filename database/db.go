@@ -12,6 +12,7 @@ import (
 
 var DB *sql.DB
 
+// bypass vercel cache
 // forza aggiornamento vercel
 func Connect() {
 	err := godotenv.Load()
