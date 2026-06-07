@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os" // Aggiunto per leggere le variabili d'ambiente
 	"os/exec"
 	"runtime"
 	"time"
@@ -36,16 +37,29 @@ func main() {
 
 	http.HandleFunc("/", api.Handler)
 
-	fmt.Println("🚀 Accendo il motore e apro il sito in automatico...")
+	// 1. CHIEDIAMO LA PORTA AL SISTEMA
+	port := os.Getenv("PORT")
+	isLocal := false
 
-	// 1. ORA APRIAMO IL BROWSER SULLA PORTA 3000
-	go func() {
-		time.Sleep(1 * time.Second)
-		openBrowser("http://localhost:3090")
-	}()
+	if port == "" {
+		port = "3090" // Fallback per lo sviluppo sul tuo PC
+		isLocal = true
+	}
 
-	// 2. ACCENDIAMO IL SERVER SULLA PORTA 3090
-	err = http.ListenAndServe(":3090", nil)
+	fmt.Printf("🚀 Accendo il motore sulla porta %s...\n", port)
+
+	// 2. APRIAMO IL BROWSER SOLO IN LOCALE
+	if isLocal {
+		go func() {
+			time.Sleep(1 * time.Second)
+			openBrowser("http://localhost:" + port)
+		}()
+	} else {
+		fmt.Println("☁️ Ambiente Cloud rilevato: avvio serverless in corso...")
+	}
+
+	// 3. ACCENDIAMO IL SERVER SULLA PORTA DINAMICA
+	err = http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.Fatal("Errore del server:", err)
 	}
